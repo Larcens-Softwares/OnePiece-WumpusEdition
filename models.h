@@ -1,40 +1,45 @@
 #include <string>
+#include <vector>
 using namespace std;
 
 class GrandLine {
 private:
-    // cenario
+    vector<vector<Elemento>> cenario;
 public:
-    GrandLine ();
-    ~GrandLine ();
+    GrandLine(vector<vector<Elemento>> cenar);
+    ~GrandLine();
 };
 
-enum tipo_elemento{pirata,marinha,espaco_vazio,obstaculo,one_piece};
-enum movimento{up,down,left,right};
+enum TipoElemento{Pirata,Marinha,EspacoVazio,Obstaculo,OnePiece};
+enum Movimento{up,down,left,right};
 
+
+// Classes Abstratas
 class Elemento {
 private:
     string nome;
-    tipo_elemento tipo;
+    TipoElemento tipo;
 public:
-    Elemento ();
-    ~Elemento ();
+    Elemento();
+    ~Elemento();
 };
 
 class Pessoa: public Elemento {
 private:
     int hp;
 public:
-    Pessoa ();
-    ~Pessoa ();
+    Pessoa():Elemento();
+    ~Pessoa();
 };
 
+
+// Classes herdeiras
 class OnePiece : public Elemento{
 private:
     float peso;
 public:
-    OnePiece ();
-    ~OnePiece ();
+    OnePiece();
+    ~OnePiece();
 };
 
 class Pirata: public Pessoa {
@@ -42,14 +47,14 @@ private:
     float peso;
     float peso_add; // => 0
 public:
-    Pirata ();
-    ~Pirata ();
+    Pirata();
+    ~Pirata();
 };
 
 class Marinha: public Pessoa {
 private:
     bool estado;
 public:
-    Marinha  ();
-    ~Marinha  ();
+    Marinha();
+    ~Marinha();
 };
