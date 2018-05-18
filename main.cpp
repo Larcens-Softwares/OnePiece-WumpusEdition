@@ -1,7 +1,7 @@
 #include <iostream>
+#include <vector>
 #include "models.h"
 using namespace std;
-
 
 Elemento::Elemento(string nome, TipoElemento tipo){
     this->nome = nome;
@@ -10,7 +10,7 @@ Elemento::Elemento(string nome, TipoElemento tipo){
 Elemento::~Elemento(){}
 //////////////////////////////////////////////////////////
 Pessoa::Pessoa(int hp):Elemento(nome,tipo){
-    this->peso = peso;
+    this->hp = hp;
 }
 Pessoa::~Pessoa(){}
 //////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ OnePiece::OnePiece(float peso):Elemento(nome,tipo){
     this->peso = peso;
 }
 void OnePiece::set_peso(float peso){
-    this->peso = peso
+    this->peso = peso;
 }
 float OnePiece::get_peso(){
     return peso;
@@ -56,13 +56,13 @@ bool Marinha::get_estado(){
 }
 Marinha::~Marinha(){}
 //////////////////////////////////////////////////////////
-GrandLine::GrandLine(vector<vector<Elemento>> init_cenario){
+GrandLine::GrandLine(vector<vector<Elemento> > init_cenario){
     cenario = init_cenario;
 }
-void GrandLine::set_grand_line(vector<vector<Elemento>> cenar){
+void GrandLine::set_grand_line(vector<vector<Elemento> > cenar){
     cenario = cenar;
 }
-vector<vector<Elemento>> GrandLine::get_grand_line(){
+vector<vector<Elemento> > GrandLine::get_grand_line(){
     return cenario;
 }
 GrandLine::~GrandLine(){}

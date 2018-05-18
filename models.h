@@ -2,16 +2,6 @@
 #include <vector>
 using namespace std;
 
-class GrandLine {
-    private:
-        vector<vector<Elemento>> cenario;
-    public:
-        GrandLine(vector<vector<Elemento>> cenar);
-        ~GrandLine();
-        void set_grand_line(vector<vector<Elemento>> cenar);
-        vector<vector<Elemento>> get_grand_line();
-};
-
 enum TipoElemento{Pirata,Marinha,EspacoVazio,Obstaculo,OnePiece};
 enum Movimento{up = 1,down,left,right};
 
@@ -29,6 +19,15 @@ class Elemento { // abstrata
         virtual string get_nome_elemento() = 0;
 };
 
+class GrandLine {
+private:
+    vector<vector<Elemento> > cenario;
+public:
+    GrandLine(vector<vector<Elemento> > cenar);
+    ~GrandLine();
+    void set_grand_line(vector<vector<Elemento> > cenar);
+    vector<vector<Elemento> > get_grand_line();
+};
 
 class Pessoa: public Elemento { // abstrata
     private:
