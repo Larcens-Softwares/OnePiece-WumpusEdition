@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include "models.h"
 using namespace std;
 
 Elemento::Elemento(string nome, TipoElemento tipo){
@@ -24,7 +23,6 @@ float OnePiece::get_peso(){
     return peso;
 }
 OnePiece::~OnePiece(){}
-
 //////////////////////////////////////////////////////////
 Pirata::Pirata(float peso):Pessoa(hp){
     this->peso = peso;
