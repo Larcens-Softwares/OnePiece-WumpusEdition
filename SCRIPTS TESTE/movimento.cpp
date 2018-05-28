@@ -20,18 +20,69 @@ class elemento{
 		tipo = type;
 	}
 };
+int * validando_inimigos(int tamanho, vector<vector<elemento>> cenario){
+	int randNumLinha,randNumColuna;
+	int var=0;
+	int posicao[2];
 
-int main() {
+	randNumLinha = rand() % (tamanho-1) + 1;
+	randNumColuna = rand() % (tamanho-1) + 1;
+
+		while(var==0){
+			if(randNumLinha == 0 or randNumColuna == 0){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
+			}else{
+				var=1;
+			}
+		}
+
+		var=0;
+		while(var==0){
+			if(randNumLinha == (tamanho-1) and randNumColuna == (tamanho-1)){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
+			}else{
+				var=1;
+			}
+		}
+
+		var=0;
+		while(var==0){
+			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or
+				cenario[randNumLinha][randNumColuna].getNome() == "In"){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
+			}else{
+				var=1;
+			}
+		}
+
+		while(var==0){
+			if(randNumLinha == (tamanho-2) or randNumColuna == (tamanho-2)){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
+			}else{
+				var=1;
+			}
+		}
+
+		posicao[0] = randNumLinha;
+		posicao[1] = randNumColuna;
+	return *posicao;
+ }
+
+int main(){
 	enum Direction{up=1,down,left,right};
-	int x,randNumLinha,randNumColuna; // gerador de linhas e colunas
-	int var=0; // variavel do while
+	int tamanho; // gerador de linhas e colunas
+	int pos[2];
 	elemento objAux; // auxiliar para informação dos objetos
 	cout << "Qual o tamanho do cenario?" << endl;
-	cin >> x; // tamanho do cenario
+	cin >> tamanho;
 
 
-	vector<vector<elemento>> cenario(x, vector<elemento>(x)); // vector cenario
-	int aux = 0,aux2 = 0,aux3 = 0; // preencher cenario com vazios
+	vector<vector<elemento>> cenario(tamanho, vector<elemento>(tamanho)); // vector cenario (tamanho x tamanho)
+	int aux = 0, aux2 = 0, aux3 = 0; // preencher cenario com vazios
 
 	srand(time(NULL));
 //----------------------PIRATA-----------------------//
@@ -41,85 +92,49 @@ int main() {
 //-----------------------ONE PIECE-------------------//
 	objAux.setNome("Te");
 	objAux.setTipo("One");
-	cenario[x-1][x-1] = objAux;
+	cenario[tamanho-1][tamanho-1] = objAux;
 //-----------------------OBSTACULOS----------------- //
-  objAux.setNome("Pe");
-  objAux.setTipo("Ob");
- for(int pedra=1 ; pedra <= (x/2) ; pedra++){
-	randNumLinha = rand() % (x-1) + 1;
-	randNumColuna = rand() % (x-1) + 1;
-		while(var==0){
-			if(randNumLinha == 0 or randNumColuna == 0){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-		}
-		var=0;
-	while(var==0){
-			if(randNumLinha == (x-1) and randNumColuna == (x-1)){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
+  	objAux.setNome("Pe");
+  	objAux.setTipo("Ob");
+	for(int pedra=1 ; pedra <= (tamanho/2) ; pedra++){
+		*pos = validando_inimigos(tamanho,cenario);
+		cout << pos[0] << pos[1] << '\n';
+		cenario[pos[0]][pos[1]] = objAux;
 	}
-	var =0;
-	while(var==0){
-			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or 
-				cenario[randNumLinha][randNumColuna].getNome() == "In"){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-	}
-	while(var==0){
-			if(randNumLinha == (x-2) and randNumColuna == (x-2)){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-	}
-	var = 0;
-	cenario[randNumLinha][randNumColuna] = objAux;
- }
- var = 0;
 //----------------------- MARINHA ------------------//
 	objAux.setNome("In");
-  objAux.setTipo("Ma");
-	randNumLinha = rand() % (x-1) + 1;
-	randNumColuna = rand() % (x-1) + 1;
-		while(var==0){
-			if(randNumLinha == 0 or randNumColuna == 0){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-		}
-	 var=0;
-	while(var==0){
-			if(randNumLinha == (x-1) and randNumColuna == (x-1)){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-	}
-	 var =0;
-	while(var==0){
-			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or 
-				cenario[randNumLinha][randNumColuna].getNome() == "In"){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-	}
-	cenario[randNumLinha][randNumColuna] = objAux;
+  	objAux.setTipo("Ma");
+	*pos = validando_inimigos(tamanho,cenario);
+	cout << pos[0] << pos[1] << '\n';
+	cenario[pos[0]][pos[1]] = objAux;
+
+	// 	while(var==0){
+	// 		if(randNumLinha == 0 or randNumColuna == 0){
+	// 			randNumLinha = rand() % (tamanho-1) + 1;
+	// 			randNumColuna = rand() % (tamanho-1) + 1;
+	// 		}else{
+	// 			var=1;
+	// 		}
+	// 	}
+	//  var=0;
+	// while(var==0){
+	// 		if(randNumLinha == (tamanho-1) and randNumColuna == (tamanho-1)){
+	// 			randNumLinha = rand() % (tamanho-1) + 1;
+	// 			randNumColuna = rand() % (tamanho-1) + 1;
+	// 		}else{
+	// 			var=1;
+	// 		}
+	// }
+	//  var =0;
+	// while(var==0){
+	// 		if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or
+	// 			cenario[randNumLinha][randNumColuna].getNome() == "In"){
+	// 			randNumLinha = rand() % (tamanho-1) + 1;
+	// 			randNumColuna = rand() % (tamanho-1) + 1;
+	// 		}else{
+	// 			var=1;
+	// 		}
+	// }
 
 //---------------------ESPAÇOS VAZIOS--------------//
 
@@ -139,34 +154,36 @@ int main() {
 
 	aux=0;
 
-	for(auto i : cenario){
-		for(auto j : cenario.at(aux)){
-			cout << j.getNome() << j.getTipo() << "\t";
+	for(auto linha: cenario){
+		for(auto coluna: cenario.at(aux)){
+			cout << coluna.getNome() << coluna.getTipo() << "\t";
 			cout << " ";
 		}
 		cout << endl;
 		aux++;
 	}
 //----------MOVIMENTO----------------------------//
+	getchar();
+	int var = 0;
 	fflush(stdin);
 	aux = 0;
 	aux2 = 0;
-  var = 0;
+    var = 0;
 	int control = 0;
 	while(var == 0){
-  Direction direction = Direction(rand()%4+1);
+  	Direction direction = Direction(rand()%4+1);
 		if(direction == up){
-				for(auto i : cenario){
-					for(auto j : cenario.at(aux)){
-						if (cenario[aux][aux2].getNome() == "Jo" and aux < (x-1) and control == 0){
+				for(auto linha: cenario){
+					for(auto coluna: cenario.at(aux)){
+						if (cenario[aux][aux2].getNome() == "Jo" and aux < (tamanho-1) and control == 0){
 							if(cenario[aux+1][aux2].getNome() != "Pe" and cenario[aux+1][aux2].getNome() != "In" ){
 									cenario[aux][aux2].setNome("XX");
 									cenario[aux][aux2].setTipo("XX");
 									cenario[aux+1][aux2].setNome("Jo");
 									cenario[aux+1][aux2].setTipo("Pi");
-									for(auto i : cenario){
-										for(auto j : cenario.at(aux3)){
-											cout << j.getNome() << j.getTipo() << "\t";
+									for(auto linha: cenario){
+										for(auto coluna: cenario.at(aux3)){
+											cout << coluna.getNome() << coluna.getTipo() << "\t";
 											cout << " ";
 										}
 											cout << endl;
@@ -175,6 +192,7 @@ int main() {
 									aux3 = 0;
 									control++;
 									getchar();
+									// system("CLS"); system("clear");
 							 }
 						}
 						aux2++;
@@ -183,8 +201,8 @@ int main() {
 					 aux++;
 				 }
 		}else if(direction == down){
-				for(auto i : cenario){
-					for(auto j : cenario.at(aux)){
+				for(auto linha: cenario){
+					for(auto coluna: cenario.at(aux)){
 						if (cenario[aux][aux2].getNome() == "Jo" and aux > 0 and control == 0){
 							if(cenario[aux-1][aux2].getNome() != "Pe" and cenario[aux-1][aux2].getNome() != "In" ){
 									cenario[aux][aux2].setNome("XX");
@@ -192,9 +210,9 @@ int main() {
 									cenario[aux-1][aux2].setNome("Jo");
 									cenario[aux-1][aux2].setTipo("Pi");
 									control++;
-								 for(auto i : cenario){
-										for(auto j : cenario.at(aux3)){
-											cout << j.getNome() << j.getTipo() << "\t";
+								 for(auto linha: cenario){
+										for(auto coluna: cenario.at(aux3)){
+											cout << coluna.getNome() << coluna.getTipo() << "\t";
 											cout << " ";
 										}
 											cout << endl;
@@ -202,6 +220,7 @@ int main() {
 									}
 									aux3 = 0;
 									getchar();
+									// system("CLS"); system("clear");
 							 }
 						}
 						aux2++;
@@ -210,17 +229,17 @@ int main() {
 					 aux++;
 				 }
 		}else if(direction == left){
-				for(auto i : cenario){
-					for(auto j : cenario.at(aux)){
+				for(auto linha: cenario){
+					for(auto coluna: cenario.at(aux)){
 						if (cenario[aux][aux2].getNome() == "Jo" and aux2 > 0 and control == 0){
 							if(cenario[aux][aux2-1].getNome() != "Pe" and cenario[aux][aux2-1].getNome() != "In" ){
 									cenario[aux][aux2].setNome("XX");
 									cenario[aux][aux2].setTipo("XX");
 									cenario[aux][aux2-1].setNome("Jo");
 									cenario[aux][aux2-1].setTipo("Pi");
-									for(auto i : cenario){
-										for(auto j : cenario.at(aux3)){
-											cout << j.getNome() << j.getTipo() << "\t";
+									for(auto linha: cenario){
+										for(auto coluna: cenario.at(aux3)){
+											cout << coluna.getNome() << coluna.getTipo() << "\t";
 											cout << " ";
 										}
 											cout << endl;
@@ -229,6 +248,7 @@ int main() {
 										aux3 = 0;
 									control++;
 									getchar();
+									// system("CLS"); system("clear");
 							 }
 						}
 						aux2++;
@@ -237,17 +257,17 @@ int main() {
 					 aux++;
 				 }
 		}else if(direction == right){
-				for(auto i : cenario){
-					for(auto j : cenario.at(aux)){
-						if (cenario[aux][aux2].getNome() == "Jo" and aux2 < (x-1) and control == 0){
+				for(auto linha: cenario){
+					for(auto coluna: cenario.at(aux)){
+						if (cenario[aux][aux2].getNome() == "Jo" and aux2 < (tamanho-1) and control == 0){
 							if(cenario[aux][aux2+1].getNome() != "Pe" and cenario[aux][aux2+1].getNome() != "In" ){
 									cenario[aux][aux2].setNome("XX");
 									cenario[aux][aux2].setTipo("XX");
 									cenario[aux][aux2+1].setNome("Jo");
 									cenario[aux][aux2+1].setTipo("Pi");
-									for(auto i : cenario){
-										for(auto j : cenario.at(aux3)){
-											cout << j.getNome() << j.getTipo() << "\t";
+									for(auto linha: cenario){
+										for(auto coluna: cenario.at(aux3)){
+											cout << coluna.getNome() << coluna.getTipo() << "\t";
 											cout << " ";
 										}
 											cout << endl;
@@ -256,6 +276,7 @@ int main() {
 									aux3 = 0;
 									control++;
 									getchar();
+									// system("CLS"); system("clear");
 							 }
 						}
 						aux2++;
@@ -265,10 +286,10 @@ int main() {
 				 }
 		}
 		aux = 0;
-		
+
 		control = 0;
 		aux = 0;
-		aux2 = 0; 
+		aux2 = 0;
 		fflush(stdin);
 	}
 	return 0;

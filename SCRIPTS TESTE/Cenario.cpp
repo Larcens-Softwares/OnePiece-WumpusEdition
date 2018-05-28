@@ -66,7 +66,7 @@ int main() {
 	}
 	var =0;
 	while(var==0){
-			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or 
+			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or
 				cenario[randNumLinha][randNumColuna].getNome() == "In"){
 				randNumLinha = rand() % (x-1) + 1;
 				randNumColuna = rand() % (x-1) + 1;
@@ -88,7 +88,7 @@ int main() {
  var = 0;
 //----------------------- MARINHA ------------------//
 	objAux.setNome("In");
-  objAux.setTipo("Ma");
+  	objAux.setTipo("Ma");
 	randNumLinha = rand() % (x-1) + 1;
 	randNumColuna = rand() % (x-1) + 1;
 		while(var==0){
@@ -110,7 +110,7 @@ int main() {
 	}
 	 var =0;
 	while(var==0){
-			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or 
+			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or
 				cenario[randNumLinha][randNumColuna].getNome() == "In"){
 				randNumLinha = rand() % (x-1) + 1;
 				randNumColuna = rand() % (x-1) + 1;
