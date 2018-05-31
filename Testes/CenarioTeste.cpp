@@ -21,15 +21,17 @@ class elemento{
 	}
 };
 
+
+
 int main() {
-	int x,randNumLinha,randNumColuna; // gerador de linhas e colunas
+	int tamanho,randNumLinha,randNumColuna; // gerador de linhas e colunas
 	int var=0; // variavel do while
 	elemento objAux; // auxiliar para informação dos objetos
 	cout << "Qual o tamanho do cenario?" << endl;
-	cin >> x; // tamanho do cenario
+	cin >> tamanho; // tamanho do cenario
 
 
-	vector<vector<elemento>> cenario(x, vector<elemento>(x)); // vector cenario
+	vector<vector<elemento>> cenario(tamanho, vector<elemento>(tamanho)); // vector cenario
 	int aux = 0,aux2 = 0; // preencher cenario com vazios
 
 	srand(time(NULL));
@@ -40,70 +42,74 @@ int main() {
 //-----------------------ONE PIECE-------------------//
 	objAux.setNome("Te");
 	objAux.setTipo("One");
-	cenario[x-1][x-1] = objAux;
+	cenario[tamanho-1][tamanho-1] = objAux;
+
 //-----------------------OBSTACULOS----------------- //
-  objAux.setNome("Pe");
-  objAux.setTipo("Ob");
- for(int pedra=1 ; pedra <= (x/2) ; pedra++){
-	randNumLinha = rand() % (x-1) + 1;
-	randNumColuna = rand() % (x-1) + 1;
+	objAux.setNome("Pe");
+	objAux.setTipo("Ob");
+
+
+	for(int pedra=1 ; pedra <= (tamanho/2) ; pedra++){
+		randNumLinha = rand() % (tamanho-1) + 1;
+		randNumColuna = rand() % (tamanho-1) + 1;
+			while(var==0){
+				if(randNumLinha == 0 or randNumColuna == 0){
+					randNumLinha = rand() % (tamanho-1) + 1;
+					randNumColuna = rand() % (tamanho-1) + 1;
+				}else{
+					var=1;
+				}
+			}
+			var=0;
 		while(var==0){
-			if(randNumLinha == 0 or randNumColuna == 0){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
+			if(randNumLinha == (tamanho-1) and randNumColuna == (tamanho-1)){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
+			}else{
+				var=1;
+			}
+		}
+		var =0;
+		while(var==0){
+			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or 
+				cenario[randNumLinha][randNumColuna].getNome() == "In"){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
 			}else{
 				var=1;
 			}
 		}
 		var=0;
-	while(var==0){
-			if(randNumLinha == (x-1) and randNumColuna == (x-1)){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-	}
-	var =0;
-	while(var==0){
-			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or 
-				cenario[randNumLinha][randNumColuna].getNome() == "In"){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-	}
-	while(var==0){
-			if(randNumLinha == (x-2) and randNumColuna == (x-2)){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
-			}else{
-				var=1;
-			}
-	}
-	var = 0;
-	cenario[randNumLinha][randNumColuna] = objAux;
- }
- var = 0;
-//----------------------- MARINHA ------------------//
-	objAux.setNome("In");
-  objAux.setTipo("Ma");
-	randNumLinha = rand() % (x-1) + 1;
-	randNumColuna = rand() % (x-1) + 1;
 		while(var==0){
-			if(randNumLinha == 0 or randNumColuna == 0){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
+			if(randNumLinha == (tamanho-2) and randNumColuna == (tamanho-2)){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
 			}else{
 				var=1;
 			}
 		}
-	 var=0;
+		var = 0;
+		cenario[randNumLinha][randNumColuna] = objAux;
+	 }
+	 var = 0;
+//----------------------- MARINHA ------------------//
+	objAux.setNome("In");
+  	objAux.setTipo("Ma");
+	randNumLinha = rand() % (tamanho-1) + 1;
+	randNumColuna = rand() % (tamanho-1) + 1;
 	while(var==0){
-			if(randNumLinha == (x-1) and randNumColuna == (x-1)){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
+		if(randNumLinha == 0 or randNumColuna == 0){
+			randNumLinha = rand() % (tamanho-1) + 1;
+			randNumColuna = rand() % (tamanho-1) + 1;
+		}else{
+			var=1;
+		}
+	}
+ 	var=0;
+	while(var==0){
+			if(randNumLinha == (tamanho-1) and randNumColuna == (tamanho-1)){
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
 			}else{
 				var=1;
 			}
@@ -112,8 +118,8 @@ int main() {
 	while(var==0){
 			if(cenario[randNumLinha][randNumColuna].getNome() == "Pe" or 
 				cenario[randNumLinha][randNumColuna].getNome() == "In"){
-				randNumLinha = rand() % (x-1) + 1;
-				randNumColuna = rand() % (x-1) + 1;
+				randNumLinha = rand() % (tamanho-1) + 1;
+				randNumColuna = rand() % (tamanho-1) + 1;
 			}else{
 				var=1;
 			}
