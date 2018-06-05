@@ -5,6 +5,7 @@
 using namespace std;
 
 enum TipoElemento{pirata,marinha,espacoVazio,obstaculo,onePiece};
+
 class Elemento{
 private:
 	string nome;
@@ -30,10 +31,8 @@ public:
 //	~Elemento(){}
 };
 
-
 class GrandLine {
 private:
-	vector<vector<Elemento>> cenario;
 	int n;
 public:
 	void inicializar(int n, vector<vector<Elemento>> cenario){
@@ -64,10 +63,12 @@ public:
 			aux++;
 		}
 	}
-	vector<vector<Elemento>> GetCenario(){
-		return cenario;
+	int GetCenario(){
+		return n;
 	}
-
+	void SetCenario(int tamanho){
+		n = tamanho;
+	}
 	//método para inicialização do cenario variavel n para o tamanho
 
 	// GrandLine(vector<vector<Elemento>> _cenario){
@@ -76,11 +77,11 @@ public:
 	// ~GrandLine();
 };
 
-class Obstaculo : public Elemento{
-public:
-	Obstaculo(string name, TipoElemento type) : Elemento(name,type){}
-	~Obstaculo(){}
-};
+// class Obstaculo : public Elemento{
+// public:
+// 	Obstaculo(string name, TipoElemento type) : Elemento(name,type){}
+// 	~Obstaculo(){}
+// };
 
 class Pessoa : public Elemento {
 private:
@@ -142,76 +143,79 @@ class OnePiece : public Elemento {
 private:
 	int peso;
 public:
+	OnePiece(string name, TipoElemento type, int weight) : Elemento(name, type) {
+		peso = weight;
+	}
 	void SetPeso(int weight) {
 		peso = weight;
 	}
 	int GetPeso() {
 		return peso;
 	}
-	OnePiece(string name, TipoElemento type, int weight) : Elemento(name, type) {
-		peso = weight;
-	}
 };
 
 void validando_inimigos(int tamanho,vector<vector<Elemento>> cenario,	int *pos) {
 	int randNumLinha, randNumColuna;
-	int var = 0;
+	bool validando = true;
 
 	randNumLinha = rand() % (tamanho - 1) + 1;
 	randNumColuna = rand() % (tamanho - 1) + 1;
 
-	// verifica se Elemento random posicao[0][x] ou [x][0]
-	while (var == 0) {
+
+	//verifica se Elemento random posicao[0][x] ou [x][0]
+	while (validando == true) {
 		if (randNumLinha == 0 or randNumColuna == 0) {
 			randNumLinha = rand() % (tamanho - 1) + 1;
 			randNumColuna = rand() % (tamanho - 1) + 1;
 		} else {
-			var = 1;
+			validando = false;
 		}
 	}
 
-	// verifica se Elemento random posicao ao redor do OnePiece
-	var = 0;
-	while (var == 0) {
+	// verifica se Elemento random está na posicao OnePiece
+	validando = true;
+	while (validando == true) {
 		if (randNumLinha == (tamanho - 1) and randNumColuna == (tamanho - 1)) {
 			randNumLinha = rand() % (tamanho - 1) + 1;
 			randNumColuna = rand() % (tamanho - 1) + 1;
 		} else {
-			var = 1;
+			validando = false;
 		}
 	}
 
 	// verifica se Elemento posição em outro Elemento
-	var = 0;
-	while (var == 0) {
+	validando = true;
+	while (validando == true) {
 		if (cenario[randNumLinha][randNumColuna].GetNome() == "Pe" or
 			cenario[randNumLinha][randNumColuna].GetNome() == "Ma") {
 			randNumLinha = rand() % (tamanho - 1) + 1;
 			randNumColuna = rand() % (tamanho - 1) + 1;
 		} else {
-			var = 1;
+			validando = false;
 		}
 	}
 
 	// verifica Elemento proximo ao OnePiece
-	while (var == 0) {
+	while (validando == true) {
 		if (randNumLinha == (tamanho - 2) or randNumColuna == (tamanho - 2)) {
 			randNumLinha = rand() % (tamanho - 1) + 1;
 			randNumColuna = rand() % (tamanho - 1) + 1;
 		} else {
-			var = 1;
+			validando = false;
 		}
 	}
 
 	pos[0] = randNumLinha;
 	pos[1] = randNumColuna;
-} 
+
+}
 
 int main(){
 
 	enum Direction { up = 1, down, left, right };
  	int tamanho,pos[2];// posição dos elementos
 	char TamCen[256];
+
  	cout << "Qual o tamanho do cenario(de 4 a 7)?" << endl;
  	cin >> TamCen;
 	tamanho = atoi(TamCen);
@@ -223,7 +227,7 @@ int main(){
 	}
 
 	vector< vector<Elemento> > cenario(tamanho,vector<Elemento>(tamanho));  // vector cenario (n x n)
- 	int aux = 0, aux2 = 0, aux3 = 0; // preencher cenario com vazios
+ 	int aux = 0, aux2 = 0, aux3 = 0;
 
 // Gerando novas seeds (rand);
  	srand(time(NULL));
@@ -241,7 +245,7 @@ int main(){
 
 //-----------------------OBSTACULOS----------------- //
 
-	Obstaculo obst("Pe",obstaculo); // name, type
+	Elemento obst("Pe",obstaculo); // name, type
 	for(int pedra = 1; pedra <= (tamanho / 2); pedra++){
 		validando_inimigos(tamanho, cenario, pos);
 		cenario.at(pos[0]).at(pos[1]).SetNome(obst.GetNome());
@@ -282,7 +286,7 @@ int main(){
  		cout << endl;
  		aux++;
  	}
-// 	//----------MOVIMENTO----------------------------//
+//----------MOVIMENTO----------------------------//
 	getchar();
 	getchar();
 	fflush(stdin);
