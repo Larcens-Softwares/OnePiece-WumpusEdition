@@ -77,12 +77,6 @@ public:
 	// ~GrandLine();
 };
 
-// class Obstaculo : public Elemento{
-// public:
-// 	Obstaculo(string name, TipoElemento type) : Elemento(name,type){}
-// 	~Obstaculo(){}
-// };
-
 class Pessoa : public Elemento {
 private:
 	int hp;
@@ -154,74 +148,113 @@ public:
 	}
 };
 
-void validando_inimigos(int tamanho,vector<vector<Elemento>> cenario,	int *pos) {
+void validando_spawn(int tamanho,vector<vector<Elemento>> cenario,	int *pos) {
 	int randNumLinha, randNumColuna;
 	bool validando = true;
 
 	randNumLinha = rand() % (tamanho - 1) + 1;
 	randNumColuna = rand() % (tamanho - 1) + 1;
 
+	cout << "\t > Tentativa spawn : " << endl;
+	while(validando == true){
 
-	//verifica se Elemento random posicao[0][x] ou [x][0]
-	while (validando == true) {
-		if (randNumLinha == 0 or randNumColuna == 0) {
+		if(randNumLinha != 0 or randNumColuna != 0){
+			cout << "\t\t Fail : Linha ou coluna [0]: " << randNumLinha << "," << randNumColuna << endl;
+
+			if(randNumLinha != (tamanho - 1) or randNumColuna != (tamanho - 1)){
+				cout << "\t\t Fail : Spawn no OnePiece [F]: " << randNumLinha << "," << randNumColuna << endl;
+
+				if(cenario[randNumLinha][randNumColuna].GetNome() != "Pe" and cenario[randNumLinha][randNumColuna].GetNome() != "Ma"){
+					cout << "\t\t Fail : Spawn em outros Elementos [F]: " << randNumLinha << "," << randNumColuna << endl;
+
+					if(randNumLinha != (tamanho - 2) or randNumColuna != (tamanho - 2)){
+						cout << "\t\t Fail : Proximidade do OnePiece: " << randNumLinha << "," << randNumColuna << endl;
+
+						if((randNumLinha == (tamanho-1) and randNumColuna == (tamanho-2)) and
+							(cenario[tamanho-2][tamanho-1].GetNome() == "Pe") ){
+								cout << "\t\t Fail : Bloqueio de passagem [F]: " << randNumLinha << "," << randNumColuna << endl;
+								validando = true; // volta ao loop
+						}else if((randNumLinha == (tamanho-2) and randNumColuna == (tamanho-1)) and
+							(cenario[tamanho-1][tamanho-2].GetNome() == "Pe")){
+								cout << "\t\t Fail : Bloqueio de passagem [F]: " << randNumLinha << "," << randNumColuna << endl;
+								validando = true; // volta ao loop
+						}else{
+							validando = false; // encerra requisitos de spawn
+						}
+					}
+				}
+			}
+		}
+		if(validando == true){
 			randNumLinha = rand() % (tamanho - 1) + 1;
 			randNumColuna = rand() % (tamanho - 1) + 1;
-		} else {
-			validando = false;
 		}
 	}
 
-	// verifica se Elemento random está na posicao OnePiece
-	validando = true;
-	while (validando == true) {
-		if (randNumLinha == (tamanho - 1) and randNumColuna == (tamanho - 1)) {
-			randNumLinha = rand() % (tamanho - 1) + 1;
-			randNumColuna = rand() % (tamanho - 1) + 1;
-		} else {
-			validando = false;
-		}
-	}
+		pos[0] = randNumLinha;
+		pos[1] = randNumColuna;
+		cout << "\t\t Sucessfull : Posicao sorteada : " << pos[0] << "," << pos[1] << endl;
 
-	// verifica se Elemento posição em outro Elemento
-	validando = true;
-	while (validando == true) {
-		if (cenario[randNumLinha][randNumColuna].GetNome() == "Pe" or
-			cenario[randNumLinha][randNumColuna].GetNome() == "Ma") {
-			randNumLinha = rand() % (tamanho - 1) + 1;
-			randNumColuna = rand() % (tamanho - 1) + 1;
-		} else {
-			validando = false;
-		}
-	}
+}
+void menu_player(){
+	cout << "\n────────────────────────────────────────" << endl;
+	cout << "─────────────▄▄██████████▄▄─────────────" << endl;
+	cout << "─────────────▀▀▀───██───▀▀▀─────────────" << endl;
+	cout << "─────▄██▄───▄▄████████████▄▄───▄██▄─────" << endl;
+	cout << "───▄███▀──▄████▀▀▀────▀▀▀████▄──▀███▄───" << endl;
+	cout << "──████▄─▄███▀──────────────▀███▄─▄████──" << endl;
+	cout << "─███▀█████▀▄████▄──────▄████▄▀█████▀███─" << endl;
+	cout << "─██▀──███▀─██████──────██████─▀███──▀██─" << endl;
+	cout << "──▀──▄██▀──▀████▀──▄▄──▀████▀──▀██▄──▀──" << endl;
+	cout << "─────███───────────▀▀───────────███─────" << endl;
+	cout << "─────██████████████████████████████─────" << endl;
+	cout << "─▄█──▀██──███───██────██───███──██▀──█▄─" << endl;
+	cout << "─███──███─███───██────██───███▄███──███─" << endl;
+	cout << "─▀██▄████████───██────██───████████▄██▀─" << endl;
+	cout << "──▀███▀─▀████───██────██───████▀─▀███▀──" << endl;
+	cout << "───▀███▄──▀███████────███████▀──▄███▀───" << endl;
+	cout << "─────▀███────▀▀██████████▀▀▀───███▀─────" << endl;
+	cout << "───────▀─────▄▄▄───██───▄▄▄─────▀───────" << endl;
+	cout << "──────────── ▀▀██████████▀▀─────────────" << endl;
+	cout << "────────────────────────────────────────" << endl;
 
-	// verifica Elemento proximo ao OnePiece
-	while (validando == true) {
-		if (randNumLinha == (tamanho - 2) or randNumColuna == (tamanho - 2)) {
-			randNumLinha = rand() % (tamanho - 1) + 1;
-			randNumColuna = rand() % (tamanho - 1) + 1;
-		} else {
-			validando = false;
-		}
-	}
-
-	pos[0] = randNumLinha;
-	pos[1] = randNumColuna;
+	cout << "\n ______   .__   __.  _______    .______    __   _______   ______  _______    " << endl;
+	cout << "/  __  \\  |  \\ |  | |   ____|   |   _  \\  |  | |   ____| /      ||   ____|   " << endl;
+	cout << "|  |  | | |   \\|  | |  |__      |  |_)  | |  | |  |__   |  ,----'|  |__      " << endl;
+	cout << "|  |  | | |  . `  | |   __|     |   ___/  |  | |   __|  |  |     |   __|     " << endl;
+	cout << "|  `--' | |  |\\   | |  |____    |  |      |  | |  |____ |  `----.|  |____    " << endl;
+	cout << "\\______/  |__| \\__| |_______|   | _|      |__| |_______| \\______||_______|   " << endl;
+	getchar();
+	system("CLS");
+	system("clear");
 
 }
 
 int main(){
+	system("CLS");
+	system("clear");
+	menu_player();
 
 	enum Direction { up = 1, down, left, right };
  	int tamanho,pos[2];// posição dos elementos
 	char TamCen[256];
 
- 	cout << "Qual o tamanho do cenario(de 4 a 7)?" << endl;
- 	cin >> TamCen;
+ 	cout << " -- Selecione um nivel --" << endl;
+	cout << "\t > NIVEL 4  - - - - 4" << endl; // 4
+	cout << "\t > NIVEL 5  - - - - 5" << endl; // 5
+	cout << "\t > NIVEL 6  - - - - 6" << endl; // 6
+	cout << "\t > NIVEL 7  - - - - 7" << endl; // 7
+	cout << "\t > SAIR  - - - - -  8" << endl; // EXIT
+	cout << "\t > Digite o numero: " << endl;
+
+	cin >> TamCen;
 	tamanho = atoi(TamCen);
+	if(tamanho == 8){
+		return 0;
+	}
 	while(tamanho > 7 or tamanho < 4){
-		cout << "TAMANHO INVALIDO!!!" << endl;
-		cout << "Qual o tamanho do cenario?(de 4 a 7)" << endl;
+		cout << "\t\t -------- NIVEL INVALIDO!!!" << endl;
+		cout << " \n-- Selecione um nivel --" << endl;
  		cin >> TamCen;
 		tamanho = atoi(TamCen);
 	}
@@ -244,25 +277,23 @@ int main(){
 	cenario.at(tamanho-1).at(tamanho-1).SetTipo(tesouro.GetTipo());
 
 //-----------------------OBSTACULOS----------------- //
+cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
 
 	Elemento obst("Pe",obstaculo); // name, type
 	for(int pedra = 1; pedra <= (tamanho / 2); pedra++){
-		validando_inimigos(tamanho, cenario, pos);
+		validando_spawn(tamanho, cenario, pos);
 		cenario.at(pos[0]).at(pos[1]).SetNome(obst.GetNome());
 		cenario.at(pos[0]).at(pos[1]).SetTipo(obst.GetTipo());
 	}
 //----------------------- MARINHA ------------------//
 	string ui_estado_marinha; // imprime estado
 	Marinha mar(false, 5, "Ma", marinha); // state,vida,name,type
-	validando_inimigos(tamanho,cenario,pos);
+	validando_spawn(tamanho,cenario,pos);
 	cenario.at(pos[0]).at(pos[1]).SetNome(mar.GetNome());
 	cenario.at(pos[0]).at(pos[1]).SetTipo(mar.GetTipo());
 	ui_estado_marinha = mar.GetEstado()? "Marinha em alerta":"Marinha Dormindo";
 
-	// GrandLine cenar;
-	// cenar.inicializar(tamanho,cenario);
-
-// //---------------------ESPAÇOS VAZIOS--------------//
+//---------------------ESPAÇOS VAZIOS--------------//
  	for (auto a : cenario) {
 		for (auto b : cenario.at(aux)) {
 			if (b.GetNome() != "Jo" && b.GetNome() != "Te" && b.GetNome() != "Pe" && b.GetNome() != "Ma") {
@@ -275,6 +306,9 @@ int main(){
  		aux2 = 0;
  		aux++;
  	}
+	// GrandLine cenar;
+	// cenar.inicializar(tamanho,cenario);
+
  //----------------GERANDO CENARIO-----------------//
  	aux = 0;
 
@@ -289,6 +323,7 @@ int main(){
 //----------MOVIMENTO----------------------------//
 	getchar();
 	getchar();
+	system("clear");
 	fflush(stdin);
 	aux = 0;
 	aux2 = 0;
@@ -298,10 +333,8 @@ int main(){
 		if (direction == up) {
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and
-						aux < (tamanho - 1) and control == 0) {
-						if (cenario[aux + 1][aux2].GetNome() != "Pe" and
-							cenario[aux + 1][aux2].GetNome() != "Ma") {
+					if (cenario[aux][aux2].GetNome() == "Jo" and aux < (tamanho - 1) and control == 0) {
+						if (cenario[aux + 1][aux2].GetNome() != "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma") {
 							cenario.at(aux).at(aux2).SetNome("~~");
 							cenario.at(aux).at(aux2).SetTipo(obstaculo);
 							cenario.at(aux + 1).at(aux2).SetNome(player.GetNome());
