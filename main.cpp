@@ -35,28 +35,12 @@ class GrandLine {
 private:
 	int n;
 public:
-	void inicializar(int n, vector<vector<Elemento>> cenario){
-		int aux = 0, aux2 = 0;
+	void inicializar(vector<vector<Elemento>> cenario){
+		int aux = 0;
 
-		//Gerando espaços vazios
-		for (auto a : cenario) {
-			for (auto b : cenario.at(aux)) {
-				if (b.GetNome() != "Jo" && b.GetNome() != "Te" &&
-					b.GetNome() != "Pe" && b.GetNome() != "Ma") {
-					b.SetNome("~~");
-					b.SetTipo(espacoVazio);
-					cenario.at(aux).at(aux2) = b;
-				}
-				aux2++;
-			}
-			aux2 = 0;
-			aux++;
-		}
-
-		// Gerando Elementos
 		for (auto linha : cenario) {
 			for (auto coluna : cenario.at(aux)) {
-				cout << coluna.GetNome() << coluna.GetTipo() << "\t";
+				cout << coluna.GetNome();
 				cout << " ";
 			}
 			cout << endl;
@@ -81,15 +65,15 @@ class Pessoa : public Elemento {
 private:
 	int hp;
 public:
-	 void SetVida(int vida){
-		 hp = vida;
-	 }
-	 int GetVida(){
-		 return hp;
-	 }
 
 	Pessoa(int vida, string name, TipoElemento type): Elemento(name, type) { // tipo e TipoElemento e nao string(ALTERAR)
 		hp = vida;
+	}
+	void SetVida(int vida){
+		hp = vida;
+	}
+	int GetVida(){
+		return hp;
 	}
 };
 
@@ -196,7 +180,7 @@ void validando_spawn(int tamanho,vector<vector<Elemento>> cenario,	int *pos) {
 		cout << "\t\t Sucessfull : Posicao sorteada : " << pos[0] << "," << pos[1] << endl;
 
 }
-void menu_player(){
+void init_player(){
 	cout << "\n────────────────────────────────────────" << endl;
 	cout << "─────────────▄▄██████████▄▄─────────────" << endl;
 	cout << "─────────────▀▀▀───██───▀▀▀─────────────" << endl;
@@ -227,13 +211,12 @@ void menu_player(){
 	getchar();
 	system("CLS");
 	system("clear");
-
 }
 
 int main(){
 	system("CLS");
 	system("clear");
-	menu_player();
+	init_player();
 
 	enum Direction { up = 1, down, left, right };
  	int tamanho,pos[2];// posição dos elementos
@@ -245,9 +228,9 @@ int main(){
 	cout << "\t > NIVEL 6  - - - - 6" << endl; // 6
 	cout << "\t > NIVEL 7  - - - - 7" << endl; // 7
 	cout << "\t > SAIR  - - - - -  8" << endl; // EXIT
-	cout << "\t > Digite o numero: " << endl;
+	cout << "\t > Digite o numero: ";
 
-	cin >> TamCen;
+	cin >> TamCen; cout << "\n";
 	tamanho = atoi(TamCen);
 	if(tamanho == 8){
 		return 0;
@@ -298,28 +281,20 @@ cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
 		for (auto b : cenario.at(aux)) {
 			if (b.GetNome() != "Jo" && b.GetNome() != "Te" && b.GetNome() != "Pe" && b.GetNome() != "Ma") {
 				b.SetNome("~~");
- 				b.SetTipo(obstaculo);
+ 				b.SetTipo(espacoVazio);
 				cenario.at(aux).at(aux2) = b;
-		}
+			}
  			aux2++;
  		}
  		aux2 = 0;
  		aux++;
  	}
-	// GrandLine cenar;
-	// cenar.inicializar(tamanho,cenario);
 
- //----------------GERANDO CENARIO-----------------//
- 	aux = 0;
+//----------------GERANDO CENARIO-----------------//
 
- 	for (auto linha : cenario) {
- 		for (auto coluna : cenario.at(aux)) {
- 			cout << coluna.GetNome();
- 			cout << " ";
- 		}
- 		cout << endl;
- 		aux++;
- 	}
+	GrandLine cenar;
+	cenar.inicializar(cenario);
+
 //----------MOVIMENTO----------------------------//
 	getchar();
 	getchar();
@@ -333,21 +308,16 @@ cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
 		if (direction == up) {
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and aux < (tamanho - 1) and control == 0) {
-						if (cenario[aux + 1][aux2].GetNome() != "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma") {
+					if (cenario[aux][aux2].GetNome() == "Jo" and aux > 0 and control == 0) {
+						if (cenario[aux - 1][aux2].GetNome() != "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma") {
+							// espaço vazio ao sair
 							cenario.at(aux).at(aux2).SetNome("~~");
-							cenario.at(aux).at(aux2).SetTipo(obstaculo);
-							cenario.at(aux + 1).at(aux2).SetNome(player.GetNome());
-							cenario.at(aux + 1).at(aux2).SetTipo(player.GetTipo());
-							for (auto linha : cenario) {
-								for (auto coluna : cenario.at(aux3)) {
-									cout << coluna.GetNome();
-									cout << " ";
-								}
-								cout << endl;
-								aux3++;
-							}
-							aux3 = 0;
+							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
+							// proxima posição
+							cenario.at(aux - 1).at(aux2).SetNome(player.GetNome());
+							cenario.at(aux - 1).at(aux2).SetTipo(player.GetTipo());
+							
+							cenar.inicializar(cenario);
 							control++;
 							getchar();
 							system("CLS");
@@ -362,24 +332,17 @@ cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
 		} else if (direction == down) {
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and aux > 0 and
-						control == 0) {
-						if (cenario[aux - 1][aux2].GetNome() != "Pe" and
-							cenario[aux - 1][aux2].GetNome() != "Ma") {
+					if (cenario[aux][aux2].GetNome() == "Jo" and aux < (tamanho - 1) and control == 0) {
+						if (cenario[aux + 1][aux2].GetNome() != "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma") {
+							// espaço vazio ao sair
 							cenario.at(aux).at(aux2).SetNome("~~");
-							cenario.at(aux).at(aux2).SetTipo(obstaculo);
-							cenario.at(aux - 1).at(aux2).SetNome(player.GetNome());
-							cenario.at(aux - 1).at(aux2).SetTipo(player.GetTipo());
+							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
+							// proxima posição
+							cenario.at(aux + 1).at(aux2).SetNome(player.GetNome());
+							cenario.at(aux + 1).at(aux2).SetTipo(player.GetTipo());
+							
+							cenar.inicializar(cenario);
 							control++;
-							for (auto linha : cenario) {
-								for (auto coluna : cenario.at(aux3)) {
-									cout << coluna.GetNome();
-									cout << " ";
-								}
-								cout << endl;
-								aux3++;
-							}
-							aux3 = 0;
 							getchar();
 							system("CLS");
 							system("clear");
@@ -393,23 +356,16 @@ cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
 		} else if (direction == left) {
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 > 0 and
-						control == 0) {
-						if (cenario[aux][aux2 - 1].GetNome() != "Pe" and
-							cenario[aux][aux2 - 1].GetNome() != "Ma") {
+					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 > 0 and control == 0) {
+						if (cenario[aux][aux2 - 1].GetNome() != "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma") {
+							// espaço vazio ao sair
 							cenario.at(aux).at(aux2).SetNome("~~");
 							cenario.at(aux).at(aux2).SetTipo(obstaculo);
+							// proxima posição
 							cenario.at(aux).at(aux2 - 1).SetNome(player.GetNome());
 							cenario.at(aux).at(aux2 - 1).SetTipo(player.GetTipo());
-							for (auto linha : cenario) {
-								for (auto coluna : cenario.at(aux3)) {
-									cout << coluna.GetNome();
-									cout << " ";
-								}
-								cout << endl;
-								aux3++;
-							}
-							aux3 = 0;
+							
+							cenar.inicializar(cenario);
 							control++;
 							getchar();
 							system("CLS");
@@ -426,21 +382,15 @@ cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Jo" and
 						aux2 < (tamanho - 1) and control == 0) {
-						if (cenario[aux][aux2 + 1].GetNome() != "Pe" and
-							cenario[aux][aux2 + 1].GetNome() != "Ma") {
+						if (cenario[aux][aux2 + 1].GetNome() != "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma") {
+							// espaço vazio ao sair
 							cenario.at(aux).at(aux2).SetNome("~~");
 							cenario.at(aux).at(aux2).SetTipo(obstaculo);
+							// proxima posição
 							cenario.at(aux).at(aux2 + 1).SetNome(player.GetNome());
 							cenario.at(aux).at(aux2 + 1).SetTipo(player.GetTipo());
-							for (auto linha : cenario) {
-								for (auto coluna : cenario.at(aux3)) {
-									cout << coluna.GetNome();
-									cout << " ";
-								}
-								cout << endl;
-								aux3++;
-							}
-							aux3 = 0;
+							
+							cenar.inicializar(cenario);
 							control++;
 							getchar();
 
