@@ -339,15 +339,10 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 		 				}else if(cenario[aux - 1][aux2].GetNome() == "Ma"){
-		 					cout << "entrei" << endl;
 		 					int vida = player->GetVida();
-		 					cout << vida << endl;
 		 					vida--;
-		 					cout << vida << endl;
 		 					player->SetVida(vida);
-		 					cout << player->GetVida() << endl;
-		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
-							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
+		 					cout << " -1 vida";
 		 				}
 
 					}
@@ -389,15 +384,10 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 						}else if(cenario[aux + 1][aux2].GetNome() == "Ma"){
-		 					cout << "entrei" << endl;
 		 					int vida = player->GetVida();
-		 					cout << vida << endl;
 		 					vida--;
-		 					cout << vida << endl;
 		 					player->SetVida(vida);
-		 					cout << player->GetVida() << endl;
-		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
-							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
+		 					cout << " -1 vida";
 		 				}
 
 					}
@@ -436,15 +426,10 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 						}else if(cenario[aux][aux2 - 1].GetNome() == "Ma"){
-		 					cout << "entrei" << endl;
 		 					int vida = player->GetVida();
-		 					cout << vida << endl;
 		 					vida--;
-		 					cout << vida << endl;
 		 					player->SetVida(vida);
-		 					cout << player->GetVida() << endl;
-		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
-							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
+		 					cout << " -1 vida";
 		 				}
 					}
 					aux2++;
@@ -483,15 +468,10 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 						}else if(cenario[aux][aux2 + 1].GetNome() == "Ma"){
-		 					cout << "entrei" << endl;
 		 					int vida = player->GetVida();
-		 					cout << vida << endl;
 		 					vida--;
-		 					cout << vida << endl;
 		 					player->SetVida(vida);
-		 					cout << player->GetVida() << endl;
-		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
-							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
+		 					cout << " -1 vida";
 		 				}
 					}
 					aux2++;
@@ -621,7 +601,13 @@ void menu_player(){
 	cout << "|  |  | | |   \\|  | |  |__      |  |_)  | |  | |  |__   |  ,----'|  |__      " << endl;
 	cout << "|  |  | | |  . `  | |   __|     |   ___/  |  | |   __|  |  |     |   __|     " << endl;
 	cout << "|  `--' | |  |\\   | |  |____    |  |      |  | |  |____ |  `----.|  |____    " << endl;
-	cout << "\\______/  |__| \\__| |_______|   | _|      |__| |_______| \\______||_______|   " << endl;
+	cout << "\\______/  |__| \\__| |_______|   | _|      |__| |_______| \\______||_______|   " << endl << endl;
+
+	cout << "( \\/ )/ )( \\(  ( \\(    \\ /  \\       (    \\(  __)      / )( \\/ )( \\( \\/ )(  _ \\/ )( \\/ ___) " << endl;
+	cout << "/ \\/ \\) \\/ (/    / ) D ((  O )       ) D ( ) _)       \\ /\\ /) \\/ (/ \\/ \\ ) __/) \\/ (\\___ \\"<< endl;
+	cout << "\\_)(_/\\____/\\_)__)(____/ \\__/       (____/(____)      (_/\\_)\\____/\\_)(_/(__)  \\____/(____/" << endl << endl;
+
+
 	getchar();
 	system("CLS");
 	system("clear");
@@ -657,6 +643,19 @@ void game_over(){
 	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼" << endl << endl;
 }
 
+void you_win(){
+
+
+cout << "\n\t\t	       _______                     _________ _       " << endl;
+cout << "\t\t|\\     /|(  ___  )|\\     /|  |\\     /|\\__   __/( (    /|" << endl;
+cout << "\t\t( \\   / )| (   ) || )   ( |  | )   ( |   ) (   |  \\  ( |" << endl;
+cout << "\t\t \\ (_) / | |   | || |   | |  | | _ | |   | |   |   \\ | |" << endl;
+cout << "\t\t  \\   /  | |   | || |   | |  | |( )| |   | |   | (\\ \\) |" << endl;
+cout << "\t\t   ) (   | |   | || |   | |  | || || |   | |   | | \\   |" << endl;
+cout << "\t\t   | |   | (___) || (___) |  | () () |___) (___| )  \\  |" << endl;
+cout << "\t\t   \\_/   (_______)(_______)  (_______)\\_______/|/    )_)" << endl << endl;
+
+}
 
 int rodadas_marinha = 0;
 int proxima_rodada;
