@@ -77,14 +77,19 @@ class Pirata : public Pessoa {
 	
 	int IdentificarTesouro (vector<vector<Elemento>> cenario, int tamanho){
 		if (cenario.at(tamanho-1).at(tamanho-3).GetNome() == "Jo"){
-			if(cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Pe" or cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma"){
-				return 0;
-			}
+			if(cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Pe"){	
+				if (cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma"){
+					return 0;
+				}
+			}	
 		}
-		
+
+
 		if (cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo") {
-			if (cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Pe" or cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma"){
-				return 0;
+			if (cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Pe"){
+				if (cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma"){
+					return 0;
+				}
 			}
 		}
 		
