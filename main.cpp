@@ -297,9 +297,9 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 		return cenario;
 }
 
-vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int tamanho, Pirata player, Marinha mar){
+vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int tamanho, Pirata *player, Marinha mar, int *rodadas_marinha, int *proxima_rodada){
 	int aux = 0, aux2 = 0, control = 0;
-	int rodadas_marinha = 0;	
+	
 	
 	enum Direction { up = 1, down, left, right };
 	Direction direction = Direction(rand() % 4 + 1);
@@ -317,24 +317,37 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 		 				if(cenario[aux - 1][aux2].GetNome() == "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma"){
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					rodadas_marinha += 1;
+		 					*rodadas_marinha++;
+		 					// cout << *rodadas_marinha << endl;
+		 					*proxima_rodada = 1;
 		 				}
+
+		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
+		 					cenario = move_marinha(cenario,mar,tamanho,move);
+		 					*rodadas_marinha--;
+		 					// cout << *rodadas_marinha << endl;
+		 				}
+		 				
+		 				// cout << *rodadas_marinha << endl;
+		 				*proxima_rodada = 0;
 
 						if (cenario[aux - 1][aux2].GetNome() != "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma") {
 							cenario.at(aux).at(aux2).SetNome("~~");
 							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux - 1).at(aux2).SetNome(player.GetNome());
-							cenario.at(aux - 1).at(aux2).SetTipo(player.GetTipo());
+							cenario.at(aux - 1).at(aux2).SetNome(player->GetNome());
+							cenario.at(aux - 1).at(aux2).SetTipo(player->GetTipo());
 							control++;
 						
 		 				}else if(cenario[aux - 1][aux2].GetNome() == "Ma"){
 		 					cout << "entrei" << endl;
-		 					int vida = player.GetVida();
+		 					int vida = player->GetVida();
 		 					cout << vida << endl;
 		 					vida--;
 		 					cout << vida << endl;
-		 					player.SetVida(vida);
-		 					cout << player.GetVida() << endl;
+		 					player->SetVida(vida);
+		 					cout << player->GetVida() << endl;
+		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
+							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
 		 				}
 
 					}
@@ -354,24 +367,37 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 		 				if(cenario[aux + 1][aux2].GetNome() == "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma"){
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					rodadas_marinha += 1;
+		 					*rodadas_marinha++;
+		 					// cout << *rodadas_marinha << endl;
+		 					*proxima_rodada = 1;
 		 				}
+
+		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
+		 					cenario = move_marinha(cenario,mar,tamanho,move);
+		 					*rodadas_marinha--;
+		 					// cout << *rodadas_marinha << endl;
+		 				}
+		 				
+		 				// cout << *rodadas_marinha << endl;
+		 				*proxima_rodada = 0;
 
 						if (cenario[aux + 1][aux2].GetNome() != "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma") {
 							cenario.at(aux).at(aux2).SetNome("~~");
 							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux + 1).at(aux2).SetNome(player.GetNome());
-							cenario.at(aux + 1).at(aux2).SetTipo(player.GetTipo());
+							cenario.at(aux + 1).at(aux2).SetNome(player->GetNome());
+							cenario.at(aux + 1).at(aux2).SetTipo(player->GetTipo());
 							control++;
 						
 						}else if(cenario[aux + 1][aux2].GetNome() == "Ma"){
 		 					cout << "entrei" << endl;
-		 					int vida = player.GetVida();
+		 					int vida = player->GetVida();
 		 					cout << vida << endl;
 		 					vida--;
 		 					cout << vida << endl;
-		 					player.SetVida(vida);
-		 					cout << player.GetVida() << endl;
+		 					player->SetVida(vida);
+		 					cout << player->GetVida() << endl;
+		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
+							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
 		 				}
 
 					}
@@ -391,24 +417,34 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 		 				if(cenario[aux][aux2 - 1].GetNome() == "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma"){
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					rodadas_marinha += 1;
+		 					*rodadas_marinha++;
+		 					*proxima_rodada = 1;
 		 				}
+		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
+		 					cenario = move_marinha(cenario,mar,tamanho,move);
+		 					*rodadas_marinha--;
+		 					// cout << *rodadas_marinha << endl;
+		 				}
+		 				// cout << *rodadas_marinha << endl;
+		 				*proxima_rodada = 0;
 
 						if (cenario[aux][aux2 - 1].GetNome() != "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma") {
 							cenario.at(aux).at(aux2).SetNome("~~");
 							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux).at(aux2 - 1).SetNome(player.GetNome());
-							cenario.at(aux).at(aux2 - 1).SetTipo(player.GetTipo());
+							cenario.at(aux).at(aux2 - 1).SetNome(player->GetNome());
+							cenario.at(aux).at(aux2 - 1).SetTipo(player->GetTipo());
 							control++;
 						
 						}else if(cenario[aux][aux2 - 1].GetNome() == "Ma"){
 		 					cout << "entrei" << endl;
-		 					int vida = player.GetVida();
+		 					int vida = player->GetVida();
 		 					cout << vida << endl;
 		 					vida--;
 		 					cout << vida << endl;
-		 					player.SetVida(vida);
-		 					cout << player.GetVida() << endl;
+		 					player->SetVida(vida);
+		 					cout << player->GetVida() << endl;
+		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
+							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
 		 				}
 					}
 					aux2++;
@@ -427,25 +463,35 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 		 				if(cenario[aux][aux2 +  1].GetNome() == "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma"){
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					rodadas_marinha += 1;
+		 					*rodadas_marinha++;
+		 					// cout << *rodadas_marinha << endl;
+		 					*proxima_rodada = 1;
 		 				}
-
+		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
+		 					cenario = move_marinha(cenario,mar,tamanho,move);
+		 					*rodadas_marinha--;
+		 					// cout << *rodadas_marinha << endl;
+		 				}
+		 				// cout << *rodadas_marinha << endl;
+		 				*proxima_rodada = 0;
 
 						if (cenario[aux][aux2 + 1].GetNome() != "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma") {
 							cenario.at(aux).at(aux2).SetNome("~~");
 							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux).at(aux2 + 1).SetNome(player.GetNome());
-							cenario.at(aux).at(aux2 + 1).SetTipo(player.GetTipo());
+							cenario.at(aux).at(aux2 + 1).SetNome(player->GetNome());
+							cenario.at(aux).at(aux2 + 1).SetTipo(player->GetTipo());
 							control++;
 						
 						}else if(cenario[aux][aux2 + 1].GetNome() == "Ma"){
 		 					cout << "entrei" << endl;
-		 					int vida = player.GetVida();
+		 					int vida = player->GetVida();
 		 					cout << vida << endl;
 		 					vida--;
 		 					cout << vida << endl;
-		 					player.SetVida(vida);
-		 					cout << player.GetVida() << endl;
+		 					player->SetVida(vida);
+		 					cout << player->GetVida() << endl;
+		 					cenario.at(aux).at(aux2).SetNome(player->GetNome());
+							cenario.at(aux).at(aux2).SetTipo(player->GetTipo());
 		 				}
 					}
 					aux2++;
@@ -527,9 +573,15 @@ public:
 			cout << endl;
 			aux++;
 		}
-		int vida;
-		vida = player.GetVida();
-		cout << "\n\t< ♡ ♡ ♡ ♡ ♡"<< vida<< "> " << endl;
+		int vida = player.GetVida();
+		switch(vida){
+			case 1 : cout << "\n\t<= ♡         => " << endl; break;
+			case 2 : cout << "\n\t<= ♡ ♡       => " << endl; break;
+			case 3 : cout << "\n\t<= ♡ ♡ ♡     => " << endl; break;
+			case 4 : cout << "\n\t<= ♡ ♡ ♡ ♡   => " << endl; break;
+			case 5 : cout << "\n\t<= ♡ ♡ ♡ ♡ ♡ => " << endl;
+		}
+		
 
 	}
 };
@@ -576,7 +628,38 @@ void menu_player(){
 
 }
 
+void game_over(){
+	
+	cout << "\n\n\t\t┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t███▀▀▀██┼███▀▀▀███┼███▀█▄█▀███┼██▀▀▀" << endl;
+	cout << "\t\t██┼┼┼┼██┼██┼┼┼┼┼██┼██┼┼┼█┼┼┼██┼██┼┼┼" << endl;
+	cout << "\t\t██┼┼┼▄▄▄┼██▄▄▄▄▄██┼██┼┼┼▀┼┼┼██┼██▀▀▀" << endl;
+	cout << "\t\t██┼┼┼┼██┼██┼┼┼┼┼██┼██┼┼┼┼┼┼┼██┼██┼┼┼" << endl;
+	cout << "\t\t███▄▄▄██┼██┼┼┼┼┼██┼██┼┼┼┼┼┼┼██┼██▄▄▄" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t███▀▀▀███┼▀███┼┼██▀┼██▀▀▀┼██▀▀▀▀██▄┼" << endl;
+	cout << "\t\t██┼┼┼┼┼██┼┼┼██┼┼██┼┼██┼┼┼┼██┼┼┼┼┼██┼" << endl;
+	cout << "\t\t██┼┼┼┼┼██┼┼┼██┼┼██┼┼██▀▀▀┼██▄▄▄▄▄▀▀┼" << endl;
+	cout << "\t\t██┼┼┼┼┼██┼┼┼██┼┼█▀┼┼██┼┼┼┼██┼┼┼┼┼██┼" << endl;
+	cout << "\t\t███▄▄▄███┼┼┼─▀█▀┼┼─┼██▄▄▄┼██┼┼┼┼┼██▄" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼██┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼██┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼████▄┼┼┼▄▄▄▄▄▄▄┼┼┼▄████┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼▀▀█▄█████████▄█▀▀┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼█████████████┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼██▀▀▀███▀▀▀██┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼██┼┼┼███┼┼┼██┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼█████▀▄▀█████┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼┼███████████┼┼┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼▄▄▄██┼┼█▀█▀█┼┼██▄▄▄┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼▀▀██┼┼┼┼┼┼┼┼┼┼┼██▀▀┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼▀▀┼┼┼┼┼┼┼┼┼┼┼▀▀┼┼┼┼┼┼┼┼┼┼┼" << endl;
+	cout << "\t\t┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼" << endl << endl;
+}
 
+
+int rodadas_marinha = 0;
+int proxima_rodada;
 
 int main(){
 	system("CLS");
@@ -611,8 +694,6 @@ int main(){
     OnePiece tesouro("Te",onePiece,300); // nome, tipo , peso
     Elemento obst("Pe",obstaculo); // name, type
     Marinha mar(false, 5, "Ma", marinha); // state,vida,name,type
-    // string ui_estado_marinha; // imprime estado
-    // ui_estado_marinha = mar.GetEstado()? "Marinha em alerta":"Marinha Dormindo";
 
 // ---------------- Gerando novas seeds (rand) -------------- //;
  	srand(time(NULL));
@@ -633,14 +714,18 @@ int main(){
 	int haki = 1,auxHaki = 0;
 	int aux = 0, aux2 = 0;
 	int vida = player.GetVida();
+	string ui_estado_marinha; // imprime estado
+
 	while (vida != 0) {
-		cout << ">-- Movimentos:\t\t\t>-- Nivel: " << tamanho << endl;
+    	// ui_estado_marinha = mar.GetEstado()? "Marinha em alerta":"Marinha Dormindo";
 		haki = player.IdentificarTesouro(cenario,tamanho);
 		if(haki == 1 or auxHaki == 1){
-			cenario = MoverPirata(cenario,tamanho,player,mar);
+		cout << ">-- Movimentos:\t\t\t>-- Nivel: " << tamanho << endl;
+			cenario = MoverPirata(cenario,tamanho,&player,mar,&rodadas_marinha,&proxima_rodada);
 			mapa.ImprimirCenario(cenario,player);
 			getchar();
 		}else if(haki == 0 and auxHaki == 0){
+			cout << ">-- Haki ativo:\t\t\t>-- Nivel: " << tamanho << endl;
 			if(cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo"){
 				cenario.at(tamanho-3).at(tamanho-1).SetNome("~~");
 				cenario.at(tamanho-2).at(tamanho-1).SetNome(player.GetNome());
@@ -671,11 +756,12 @@ int main(){
 				haki = 1;
 			}
 			getchar();
-		 	}
-		system("CLS");
+		}
+	 	system("CLS");
 		system("clear");
 		vida = player.GetVida();
 	}
+	game_over();
 	
 	return 0;
 }  
