@@ -175,10 +175,10 @@ void validando_spawn(int tamanho,vector<vector<Elemento>> cenario,int  *pos) {
 vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha mar,int tamanho,string move){
 	int control = 0;
 	int aux = 0, aux2 = 0;
-						
-
+	
+	cout << " Marinha: ";		
 	if (move == "down") {
-			cout << "Marinha: up ↑" << endl << endl;
+			cout << "up ↑";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Ma" and aux > 0 and control == 0) {
@@ -202,7 +202,7 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 				aux++;
 			}
 		} else if (move == "up") {
-			cout << "Marinha : down ↓ " << endl << endl;
+			cout << "down ↓ ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Ma" and aux < (tamanho - 1) and control == 0) {
@@ -228,7 +228,7 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 				aux++;
 			}
 		} else if (move == "right") {
-			cout << "Marinha : left ← " << endl << endl;
+			cout << "left ← ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Ma" and aux2 > 0 and control == 0) {
@@ -253,7 +253,7 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 				aux++;
 			}
 		} else if (move == "left") {
-			cout << "Marinha : right → " << endl << endl;
+			cout << "right → ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Ma" and aux2 < (tamanho - 1) and control == 0) {
@@ -289,21 +289,22 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 
 vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int tamanho, Pirata player, Marinha mar){
 	int aux = 0, aux2 = 0, control = 0;
-	int rodadas_marinha = 0;
+	int rodadas_marinha = 0;	
 	
 	enum Direction { up = 1, down, left, right };
 	Direction direction = Direction(rand() % 4 + 1);
 
+		cout << "Luffy: ";
+
 		if (direction == up) {
 			string move = "up";
-			cout << "Luffy : up ↑  " << endl << endl;
+			cout << "up ↑  " ;
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Jo" and  aux > 0 and control == 0) {
 						
 						// Caso movimento colide com obstaculos
 		 				if(cenario[aux - 1][aux2].GetNome() == "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma"){
-		 					cout << "Bateu no crack otario" << endl;
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
 		 					rodadas_marinha += 1;
@@ -317,9 +318,13 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 		 				}else if(cenario[aux - 1][aux2].GetNome() == "Ma"){
+		 					cout << "entrei" << endl;
 		 					int vida = player.GetVida();
+		 					cout << vida << endl;
 		 					vida--;
+		 					cout << vida << endl;
 		 					player.SetVida(vida);
+		 					cout << player.GetVida() << endl;
 		 				}
 
 					}
@@ -330,14 +335,13 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 			}
 		} else if (direction == down) {
 			string move = "down";
-			cout << "Luffy : down ↓ " << endl << endl;
+			cout << "down ↓  ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Jo" and  aux < (tamanho - 1)  and control == 0) {
 						
 						// Caso movimento colide com obstaculos
 		 				if(cenario[aux + 1][aux2].GetNome() == "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma"){
-		 					cout << "Bateu no crack otario" << endl;
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
 		 					rodadas_marinha += 1;
@@ -351,9 +355,13 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 						}else if(cenario[aux + 1][aux2].GetNome() == "Ma"){
+		 					cout << "entrei" << endl;
 		 					int vida = player.GetVida();
+		 					cout << vida << endl;
 		 					vida--;
+		 					cout << vida << endl;
 		 					player.SetVida(vida);
+		 					cout << player.GetVida() << endl;
 		 				}
 
 					}
@@ -364,14 +372,13 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 			}
 		} else if (direction == left) {
 			string move = "left";
-			cout << "Luffy : left ← " << endl << endl;
+			cout << "left ←  ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 > 0 and control == 0) {
 						
 						// Caso movimento colide com obstaculos
 		 				if(cenario[aux][aux2 - 1].GetNome() == "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma"){
-		 					cout << "Bateu no crack otario" << endl;
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
 		 					rodadas_marinha += 1;
@@ -385,9 +392,13 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 						}else if(cenario[aux][aux2 - 1].GetNome() == "Ma"){
+		 					cout << "entrei" << endl;
 		 					int vida = player.GetVida();
+		 					cout << vida << endl;
 		 					vida--;
+		 					cout << vida << endl;
 		 					player.SetVida(vida);
+		 					cout << player.GetVida() << endl;
 		 				}
 					}
 					aux2++;
@@ -397,14 +408,13 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 			}
 		} else if (direction == right) {
 			string move = "right";
-			cout << "Luffy : right → " << endl << endl;
+			cout << "right →  ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
 					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 < (tamanho - 1) and control == 0) {
 						
 						// Caso movimento colide com obstaculos
 		 				if(cenario[aux][aux2 +  1].GetNome() == "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma"){
-		 					cout << "Bateu no crack otario" << endl;
 		 					mar.SetEstado(true);
 		 					cenario = move_marinha(cenario,mar,tamanho,move);
 		 					rodadas_marinha += 1;
@@ -419,9 +429,13 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 							control++;
 						
 						}else if(cenario[aux][aux2 + 1].GetNome() == "Ma"){
+		 					cout << "entrei" << endl;
 		 					int vida = player.GetVida();
+		 					cout << vida << endl;
 		 					vida--;
+		 					cout << vida << endl;
 		 					player.SetVida(vida);
+		 					cout << player.GetVida() << endl;
 		 				}
 					}
 					aux2++;
@@ -491,9 +505,11 @@ public:
 	void SetCenario(int tamanho){
 		n = tamanho;
 	}
-	void ImprimirCenario(vector<vector<Elemento>> cenario){
+	void ImprimirCenario(vector<vector<Elemento>> cenario, Pirata player){
 		int aux = 0;
+		cout << endl << endl;
 		for (auto linha : cenario) {
+			cout << "\t";
 			for (auto coluna : cenario.at(aux)) {
 				cout << coluna.GetNome();
 				cout << " ";
@@ -501,11 +517,22 @@ public:
 			cout << endl;
 			aux++;
 		}
+		int vida;
+		vida = player.GetVida();
+		cout << "\n\tLife < ♡ ♡ ♡ ♡ ♡"<< vida<< "> " << endl;
+
 	}
 };
 
 
 void menu_player(){
+	cout << endl << endl << endl << endl << "\t\t01001100 01100001 01110010 01100011 01100101 01101110 01110011 01010011" << endl << "\t\t01101111 01100110 01110100 01110111 01100001 01110010 01100101 01110011" <<
+	endl << "\t\t\t\t\tLarcens Softwares " << endl << endl << "\t\t\t\t\t  Lucas Santos" << endl << endl << "\t\t\t\t\t  Victor Wilker" << endl << endl << "\t\t\t\t\t  Vitor Novaes" << endl;
+	getchar();
+	system("CLS");
+	system("clear");
+
+
 	cout << "\n\t\t────────────────────────────────────────" << endl;
 	cout << "\t\t─────────────▄▄██████████▄▄─────────────" << endl;
 	cout << "\t\t─────────────▀▀▀───██───▀▀▀─────────────" << endl;
@@ -601,7 +628,7 @@ int main(){
 	 
 	 GrandLine mapa;
 	 cenario = mapa.inicializar(tamanho,cenario,player,mar,obst,tesouro);
-	 mapa.ImprimirCenario(cenario);
+	 mapa.ImprimirCenario(cenario,player);
 
 //----------MOVIMENTO----------------------------//
 	getchar();
@@ -611,11 +638,13 @@ int main(){
 	fflush(stdin);
 	int haki = 1,auxHaki = 0;
 	int aux = 0, aux2 = 0;
-	while (true) {
+	int vida = player.GetVida();
+	while (vida != 0) {
+		cout << ">-- Movimentos:" << endl;
 		haki = player.IdentificarTesouro(cenario,tamanho);
 		if(haki == 1 or auxHaki == 1){
 			cenario = MoverPirata(cenario,tamanho,player,mar);
-			mapa.ImprimirCenario(cenario);
+			mapa.ImprimirCenario(cenario,player);
 			getchar();
 		}else if(haki == 0 and auxHaki == 0){
 			if(cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo"){
@@ -623,19 +652,19 @@ int main(){
 				cenario.at(tamanho-2).at(tamanho-1).SetNome(player.GetNome());
 				cenario.at(tamanho-3).at(tamanho-1).SetTipo(espacoVazio);
 				cenario.at(tamanho-2).at(tamanho-1).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario);
+				mapa.ImprimirCenario(cenario,player);
 			}else if(cenario.at(tamanho-1).at(tamanho-3).GetNome() == "Jo"){
 				cenario.at(tamanho-1).at(tamanho-3).SetNome("~~");
 				cenario.at(tamanho-1).at(tamanho-2).SetNome(player.GetNome());
 				cenario.at(tamanho-1).at(tamanho-3).SetTipo(espacoVazio);
 				cenario.at(tamanho-1).at(tamanho-2).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario);
+				mapa.ImprimirCenario(cenario,player);
 			}else if(cenario.at(tamanho-1).at(tamanho-2).GetNome() == "Jo"){
 				cenario.at(tamanho-1).at(tamanho-2).SetNome("~~");
 				cenario.at(tamanho-1).at(tamanho-1).SetNome(player.GetNome());
 				cenario.at(tamanho-1).at(tamanho-2).SetTipo(espacoVazio);
 				cenario.at(tamanho-1).at(tamanho-1).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario);
+				mapa.ImprimirCenario(cenario,player);
 				auxHaki = 1;
 				haki = 1;
 			}else if(cenario.at(tamanho-2).at(tamanho-1).GetNome() == "Jo"){
@@ -643,7 +672,7 @@ int main(){
 				cenario.at(tamanho-1).at(tamanho-1).SetNome(player.GetNome());
 				cenario.at(tamanho-2).at(tamanho-1).SetTipo(espacoVazio);
 				cenario.at(tamanho-1).at(tamanho-1).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario);
+				mapa.ImprimirCenario(cenario,player);
 				auxHaki = 1;
 				haki = 1;
 			}
@@ -651,7 +680,34 @@ int main(){
 		 	}
 		system("CLS");
 		system("clear");
+		vida = player.GetVida();
 	}
 	
 	return 0;
 }  
+
+
+
+
+//        _____            _____                    _____                    _____                    _____                    _____                    _____          
+//          /\    \          /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \         
+//         /::\____\        /::\    \                /::\    \                /::\    \                /::\    \                /::\____\                /::\    \        
+//        /:::/    /       /::::\    \              /::::\    \              /::::\    \              /::::\    \              /::::|   |               /::::\    \       
+//       /:::/    /       /::::::\    \            /::::::\    \            /::::::\    \            /::::::\    \            /:::::|   |              /::::::\    \      
+//      /:::/    /       /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \          /::::::|   |             /:::/\:::\    \     
+//     /:::/    /       /:::/__\:::\    \        /:::/__\:::\    \        /:::/  \:::\    \        /:::/__\:::\    \        /:::/|::|   |            /:::/__\:::\    \    
+//    /:::/    /       /::::\   \:::\    \      /::::\   \:::\    \      /:::/    \:::\    \      /::::\   \:::\    \      /:::/ |::|   |            \:::\   \:::\    \   
+//   /:::/    /       /::::::\   \:::\    \    /::::::\   \:::\    \    /:::/    / \:::\    \    /::::::\   \:::\    \    /:::/  |::|   | _____    ___\:::\   \:::\    \  
+//  /:::/    /       /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\  /:::/    /   \:::\    \  /:::/\:::\   \:::\    \  /:::/   |::|   |/\    \  /\   \:::\   \:::\    \ 
+// /:::/____/       /:::/  \:::\   \:::\____\/:::/  \:::\   \:::|    |/:::/____/     \:::\____\/:::/__\:::\   \:::\____\/:: /    |::|   /::\____\/::\   \:::\   \:::\____\
+// \:::\    \       \::/    \:::\  /:::/    /\::/   |::::\  /:::|____|\:::\    \      \::/    /\:::\   \:::\   \::/    /\::/    /|::|  /:::/    /\:::\   \:::\   \::/    /
+//  \:::\    \       \/____/ \:::\/:::/    /  \/____|:::::\/:::/    /  \:::\    \      \/____/  \:::\   \:::\   \/____/  \/____/ |::| /:::/    /  \:::\   \:::\   \/____/ 
+//   \:::\    \               \::::::/    /         |:::::::::/    /    \:::\    \               \:::\   \:::\    \              |::|/:::/    /    \:::\   \:::\    \     
+//    \:::\    \               \::::/    /          |::|\::::/    /      \:::\    \               \:::\   \:::\____\             |::::::/    /      \:::\   \:::\____\    
+//     \:::\    \              /:::/    /           |::| \::/____/        \:::\    \               \:::\   \::/    /             |:::::/    /        \:::\  /:::/    /    
+//      \:::\    \            /:::/    /            |::|  ~|               \:::\    \               \:::\   \/____/              |::::/    /          \:::\/:::/    /     
+//       \:::\    \          /:::/    /             |::|   |                \:::\    \               \:::\    \                  /:::/    /            \::::::/    /      
+//        \:::\____\        /:::/    /              \::|   |                 \:::\____\               \:::\____\                /:::/    /              \::::/    /       
+//         \::/    /        \::/    /                \:|   |                  \::/    /                \::/    /                \::/    /                \::/    /        
+//          \/____/          \/____/                  \|___|                   \/____/                  \/____/                  \/____/                  \/____/         
+//                                                                                                                                                                        
