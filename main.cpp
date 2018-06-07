@@ -76,18 +76,23 @@ class Pirata : public Pessoa {
 	}
 	
 	int IdentificarTesouro (vector<vector<Elemento>> cenario, int tamanho){
-		if (cenario.at(tamanho-1).at(tamanho-3).GetNome() == "Jo" or 
-			cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo" or 
-			cenario.at(tamanho-1).at(tamanho-2).GetNome() == "Jo" or 
-			cenario.at(tamanho-2).at(tamanho-1).GetNome() == "Jo") {
-				if(cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Pe" or 
-				   cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Pe" or 
-				   cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma" or 
-				   cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Ma"){
-						return 0;
-				}
+		if (cenario.at(tamanho-1).at(tamanho-3).GetNome() == "Jo"){
+			if(cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Pe" or cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma"){
+				return 0;
+			}
 		}
-			return 1;
+		
+		if (cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo") {
+			if (cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Pe" or cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma"){
+				return 0;
+			}
+		}
+		
+		if (cenario.at(tamanho-1).at(tamanho-2).GetNome() == "Jo" or cenario.at(tamanho-2).at(tamanho-1).GetNome() == "Jo"){
+			return 0;
+		}
+
+		return 1;
 	}
 	
 };
@@ -590,7 +595,7 @@ int main(){
 		return 0;
 	}
 	while(tamanho > 7 or tamanho < 4){
-		cout << "\t\t -------- NIVEL INVALIDO!!!" << endl;
+		cout << ">-------- NIVEL INVALIDO!!!----------<" << endl;
 		cout << " \n-- Selecione um nivel --" << endl;
  		cin >> TamCen;
 		tamanho = atoi(TamCen);
