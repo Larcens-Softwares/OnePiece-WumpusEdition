@@ -62,19 +62,26 @@ class Pirata : public Pessoa {
 		peso = weight;
 	}
 	void SetPesoAdd(int weightAdd) {
-		if(peso < pesoAdicional){
-		pesoAdicional += weightAdd;
+		if(pesoAdicional < peso){
+			pesoAdicional += weightAdd;
 		}else{
 			cout << "Não é possível carregar mais One Piece." << endl;
 		}
 	}
+	void SetPesoRed(int weightAdd){
+			if(pesoAdicional > 0){
+				pesoAdicional -= weightAdd;
+			}else{
+				cout << "Seu tesouro acabou..." << endl;
+			}
+	}
+	
 	int GetPeso() {
 		return peso;
 	}
 	int GetPesoAdd() {
 		return pesoAdicional;
 	}
-	
 	int IdentificarTesouro (vector<vector<Elemento>> cenario, int tamanho){
 		if (cenario.at(tamanho-1).at(tamanho-3).GetNome() == "Jo"){
 			if(cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Pe"){	
@@ -646,14 +653,14 @@ void game_over(){
 void you_win(){
 
 
-cout << "\n\t\t	       _______                     _________ _       " << endl;
-cout << "\t\t|\\     /|(  ___  )|\\     /|  |\\     /|\\__   __/( (    /|" << endl;
-cout << "\t\t( \\   / )| (   ) || )   ( |  | )   ( |   ) (   |  \\  ( |" << endl;
-cout << "\t\t \\ (_) / | |   | || |   | |  | | _ | |   | |   |   \\ | |" << endl;
-cout << "\t\t  \\   /  | |   | || |   | |  | |( )| |   | |   | (\\ \\) |" << endl;
-cout << "\t\t   ) (   | |   | || |   | |  | || || |   | |   | | \\   |" << endl;
-cout << "\t\t   | |   | (___) || (___) |  | () () |___) (___| )  \\  |" << endl;
-cout << "\t\t   \\_/   (_______)(_______)  (_______)\\_______/|/    )_)" << endl << endl;
+	cout << "\n\t\t	       _______                     _________ _       " << endl;
+	cout << "\t\t|\\     /|(  ___  )|\\     /|  |\\     /|\\__   __/( (    /|" << endl;
+	cout << "\t\t( \\   / )| (   ) || )   ( |  | )   ( |   ) (   |  \\  ( |" << endl;
+	cout << "\t\t \\ (_) / | |   | || |   | |  | | _ | |   | |   |   \\ | |" << endl;
+	cout << "\t\t  \\   /  | |   | || |   | |  | |( )| |   | |   | (\\ \\) |" << endl;
+	cout << "\t\t   ) (   | |   | || |   | |  | || || |   | |   | | \\   |" << endl;
+	cout << "\t\t   | |   | (___) || (___) |  | () () |___) (___| )  \\  |" << endl;
+	cout << "\t\t   \\_/   (_______)(_______)  (_______)\\_______/|/    )_)" << endl << endl;
 
 }
 
@@ -710,19 +717,51 @@ int main(){
 	system("CLS");
 	system("clear");
 	fflush(stdin);
-	int haki = 1,auxHaki = 0;
+	int haki = 1,auxHaki = 0, auxPeso = 10;
 	int aux = 0, aux2 = 0;
 	int vida = player.GetVida();
 	string ui_estado_marinha; // imprime estado
 
-	while (vida != 0) {
+	while (vida != 0 or true) {
+		bool saida_pirata = false; // saida do pirata do onepice
+
     	// ui_estado_marinha = mar.GetEstado()? "Marinha em alerta":"Marinha Dormindo";
 		haki = player.IdentificarTesouro(cenario,tamanho);
-		if(haki == 1 or auxHaki == 1){
-		cout << ">-- Movimentos:\t\t\t>-- Nivel: " << tamanho << endl;
-			cenario = MoverPirata(cenario,tamanho,&player,mar,&rodadas_marinha,&proxima_rodada);
+		if(cenario.at(0).at(0).GetNome() == "Jo" and auxHaki == 1){
+			while(player.GetPesoAdd() > 0){ // Descarregando navio
+				player.SetPesoRed(auxPeso);
+				cout << "\tLuffy action: Descarreando navio..." << player.GetPesoAdd() << endl;
+				mapa.ImprimirCenario(cenario,player);
+				getchar();
+				system("CLS");
+				system("clear");
+			}
+			auxHaki = 0;
+		}else if(cenario.at(tamanho-1).at(tamanho-1).GetNome() == "Jo"){ //Carregar navio
+			while(player.GetPesoAdd() < 70 and tesouro.GetPeso() > 0){
+				tesouro.SetPeso(auxPeso);
+				player.SetPesoAdd(auxPeso);
+				mapa.ImprimirCenario(cenario,player);
+				cout << "\tLuffy action: Carregando navio..." << player.GetPesoAdd() << endl;
+				getchar();
+				system("CLS");
+				system("clear");
+			}
+			if(cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Pe" and cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Ma" and saida_pirata == false){
+				 cenario.at(tamanho-2).at(tamanho-1).SetNome(player.GetNome());
+				 saida_pirata = true;
+			}
+			if(cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Pe" and cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma" and saida_pirata == false){
+			   cenario.at(tamanho-1).at(tamanho-2).SetNome(player.GetNome());
+			   saida_pirata = true;
+			}
+			cenario.at(tamanho-1).at(tamanho-1).SetNome(tesouro.GetNome());
+			cenario.at(tamanho-1).at(tamanho-1).SetTipo(tesouro.GetTipo());
 			mapa.ImprimirCenario(cenario,player);
 			getchar();
+			system("CLS");
+			system("clear");
+
 		}else if(haki == 0 and auxHaki == 0){
 			cout << ">-- Haki ativo:\t\t\t>-- Nivel: " << tamanho << endl;
 			if(cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo"){
@@ -755,7 +794,13 @@ int main(){
 				haki = 1;
 			}
 			getchar();
+		}else if(haki == 1 or auxHaki == 1){
+			cout << ">-- Movimentos:\t\t\t>-- Nivel: " << tamanho << endl;
+			cenario = MoverPirata(cenario,tamanho,&player,mar,&rodadas_marinha,&proxima_rodada);
+			mapa.ImprimirCenario(cenario,player);
+			getchar();
 		}
+
 	 	system("CLS");
 		system("clear");
 		vida = player.GetVida();
