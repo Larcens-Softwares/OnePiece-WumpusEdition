@@ -653,7 +653,7 @@ void game_over(){
 void you_win(){
 
 
-	cout << "\n\t\t	       _______                     _________ _       " << endl;
+	cout << "\n\t\t	  _______                     _________ _       " << endl;
 	cout << "\t\t|\\     /|(  ___  )|\\     /|  |\\     /|\\__   __/( (    /|" << endl;
 	cout << "\t\t( \\   / )| (   ) || )   ( |  | )   ( |   ) (   |  \\  ( |" << endl;
 	cout << "\t\t \\ (_) / | |   | || |   | |  | | _ | |   | |   |   \\ | |" << endl;
@@ -661,7 +661,7 @@ void you_win(){
 	cout << "\t\t   ) (   | |   | || |   | |  | || || |   | |   | | \\   |" << endl;
 	cout << "\t\t   | |   | (___) || (___) |  | () () |___) (___| )  \\  |" << endl;
 	cout << "\t\t   \\_/   (_______)(_______)  (_______)\\_______/|/    )_)" << endl << endl;
-
+	getchar();
 }
 
 int rodadas_marinha = 0;
@@ -719,19 +719,23 @@ int main(){
 	fflush(stdin);
 	int haki = 1,auxHaki = 0, auxPeso = 10;
 	int aux = 0, aux2 = 0;
-	int vida = player.GetVida();
+	int vida = player.GetVida();	
+	bool posicao_luffy_encerramento = false;
 	string ui_estado_marinha; // imprime estado
 
-	while (vida != 0 or true) {
+	while (vida != 0 and posicao_luffy_encerramento != true) {
 		bool saida_pirata = false; // saida do pirata do onepice
-
     	// ui_estado_marinha = mar.GetEstado()? "Marinha em alerta":"Marinha Dormindo";
+		
 		haki = player.IdentificarTesouro(cenario,tamanho);
 		if(cenario.at(0).at(0).GetNome() == "Jo" and auxHaki == 1){
 			while(player.GetPesoAdd() > 0){ // Descarregando navio
 				player.SetPesoRed(auxPeso);
 				cout << "\tLuffy action: Descarreando navio..." << player.GetPesoAdd() << endl;
 				mapa.ImprimirCenario(cenario,player);
+				if(tesouro.GetPeso() == 0){
+					posicao_luffy_encerramento = true;
+				}
 				getchar();
 				system("CLS");
 				system("clear");
@@ -748,12 +752,16 @@ int main(){
 				system("clear");
 			}
 			if(cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Pe" and cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Ma" and saida_pirata == false){
-				 cenario.at(tamanho-2).at(tamanho-1).SetNome(player.GetNome());
-				 saida_pirata = true;
+				cenario.at(tamanho-2).at(tamanho-1).SetNome(player.GetNome());
+				saida_pirata = true;
+				system("CLS");
+				system("clear");	
 			}
 			if(cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Pe" and cenario.at(tamanho-1).at(tamanho-2).GetNome() != "Ma" and saida_pirata == false){
 			   cenario.at(tamanho-1).at(tamanho-2).SetNome(player.GetNome());
 			   saida_pirata = true;
+			   system("CLS");
+			   system("clear");
 			}
 			cenario.at(tamanho-1).at(tamanho-1).SetNome(tesouro.GetNome());
 			cenario.at(tamanho-1).at(tamanho-1).SetTipo(tesouro.GetTipo());
@@ -801,11 +809,16 @@ int main(){
 			getchar();
 		}
 
+		vida = player.GetVida();
 	 	system("CLS");
 		system("clear");
-		vida = player.GetVida();
 	}
-	game_over();
+	
+	if(vida == 0){
+		game_over();
+	}else{
+		you_win();
+	}
 	
 	return 0;
 }  
