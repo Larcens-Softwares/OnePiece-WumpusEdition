@@ -1,4 +1,3 @@
-
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -576,7 +575,7 @@ public:
 
 void menu_player(){
 	cout << endl << endl << endl << endl << "\t\t01001100 01100001 01110010 01100011 01100101 01101110 01110011 01010011" << endl << "\t\t01101111 01100110 01110100 01110111 01100001 01110010 01100101 01110011" <<
-	endl << "\t\t\t\t\tLarcens Softwares " << endl << endl << "\t\t\t\t\t  Lucas Santos" << endl << endl << "\t\t\t\t\t  Victor Wilker" << endl << endl << "\t\t\t\t\t  Vitor Novaes" << endl;
+	endl << "\t\t\t\t\tCopia nao comedia " << endl << endl << "\t\t\t\t\t  Lucas Santos" << endl << endl << "\t\t\t\t\t  Victor Wilker" << endl << endl << "\t\t\t\t\t  Vitor Novaes" << endl;
 	getchar();
 	system("CLS");
 	system("clear");
@@ -618,7 +617,6 @@ void menu_player(){
 	getchar();
 	system("CLS");
 	system("clear");
-
 }
 
 void game_over(){
@@ -720,6 +718,7 @@ int main(){
 	int haki = 1,auxHaki = 0, auxPeso = 10;
 	int aux = 0, aux2 = 0;
 	int vida = player.GetVida();	
+	int acumulo_onepiece = 0;
 	bool posicao_luffy_encerramento = false;
 	string ui_estado_marinha; // imprime estado
 
@@ -731,7 +730,9 @@ int main(){
 		if(cenario.at(0).at(0).GetNome() == "Jo" and auxHaki == 1){
 			while(player.GetPesoAdd() > 0){ // Descarregando navio
 				player.SetPesoRed(auxPeso);
-				cout << "\tLuffy action: Descarreando navio..." << player.GetPesoAdd() << endl;
+				cout << "\t|Luffy action: Descarreando navio... " << player.GetPesoAdd() << " kg " << endl;
+				acumulo_onepiece += 10;
+				cout << "\t|OnePiece total capturado: " << acumulo_onepiece << " kg " << endl ;
 				mapa.ImprimirCenario(cenario,player);
 				if(tesouro.GetPeso() == 0){
 					posicao_luffy_encerramento = true;
@@ -746,7 +747,8 @@ int main(){
 				tesouro.SetPeso(auxPeso);
 				player.SetPesoAdd(auxPeso);
 				mapa.ImprimirCenario(cenario,player);
-				cout << "\tLuffy action: Carregando navio..." << player.GetPesoAdd() << endl;
+				cout << "\t|Luffy action: Carregando navio..." << player.GetPesoAdd() << " kg " << endl;
+				cout << "\t|OnePice peso: " << tesouro.GetPeso() << " kg " << endl;
 				getchar();
 				system("CLS");
 				system("clear");
@@ -819,6 +821,10 @@ int main(){
 	}else{
 		you_win();
 	}
+
+	cout << "\t\t| --------- Painel de pontuacao --------- |" << endl;
+	cout << "\t\t| OnePiece capturado : " << acumulo_onepiece << " kg "<< endl;
+	cout << "\t\t| Pontuacao total : " << acumulo_onepiece*100 << " pnts " << endl << endl;
 	
 	return 0;
 }  

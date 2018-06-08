@@ -1,83 +1,81 @@
-#include <string>
-#include <vector>
 using namespace std;
+#include <iostream>
+#include <string>
+#include "main2.cpp"
 
-enum TipoElemento{Pirata,Marinha,EspacoVazio,Obstaculo,OnePiece};
-enum Movimento{up = 1,down,left,right};
-typedef TipoElemento TipoElemento;
-
-class Elemento { // abstrata?
-    private:
-        string nome;
-        enum TipoElemento tipo;
-    public:
-        Elemento(string nome, enum TipoElemento tipo);
-        ~Elemento();
-        virtual void set_tipo_elemento(enum TipoElemento tipo) = 0;
-        virtual enum TipoElemento get_tipo_elemento() = 0;
-
-        virtual void set_nome_elemento(string nome) = 0;
-        virtual string get_nome_elemento() = 0;
+class Elemento{
+ private:
+	string nome;
+	TipoElemento tipo;
+ public:
+   	Elemento(string nome, TipoElemento tipo);
+   	Elemento();
+	string GetNome();
+	TipoElemento GetTipo();
+	void SetNome(string name);
+	void SetTipo(TipoElemento type);
+	~Elemento();
 };
+
+class Pessoa : public Elemento {
+ private:
+	int hp;
+ public:
+	Pessoa(int vida, string name, TipoElemento type): Elemento(name, type);
+	void SetVida(int vida);
+	int GetVida();
+
+};
+
+class Pirata : public Pessoa {
+ private:
+	int peso;
+	int pesoAdicional;
+ public:
+	Pirata(int weight, int vida, string name, TipoElemento type) : Pessoa(vida, name, type);
+	void SetPeso(int weight);
+	void SetPesoAdd(int weightAdd);
+	void SetPesoRed(int weightAdd);
+	int GetPeso();
+	int GetPesoAdd();
+	int IdentificarTesouro (vector<vector<Elemento>> cenario, int tamanho);
+	
+};
+
+class Marinha : public Pessoa {
+ private:
+	bool estado;
+ public:
+	Marinha(bool state, int vida, string name, TipoElemento type)	: Pessoa(vida, name, type);
+	void SetEstado(bool state);
+	bool GetEstado();
+};
+
+class OnePiece : public Elemento {
+ private:
+	int peso;
+ public:
+	OnePiece(string name, TipoElemento type, int weight) : Elemento(name, type);
+	void SetPeso(int weight);
+	int GetPeso();
+};
+
+void validando_spawn(int tamanho,vector<vector<Elemento>> cenario,int  *pos);
+vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha mar,int tamanho,string move);
+vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int tamanho, Pirata *player, Marinha mar, int *rodadas_marinha, int *proxima_rodada);
+
 
 class GrandLine {
 private:
-    vector<vector<Elemento> > cenario;
+	int n;
 public:
-    GrandLine(vector<vector<Elemento> > cenar);
-    ~GrandLine();
-    void set_grand_line(vector<vector<Elemento> > cenar);
-    vector<vector<Elemento> > get_grand_line();
-};
-
-class Pessoa: public Elemento { // abstrata?
-    private:
-        int hp;
-    public:
-        Pessoa(int hp);
-        ~Pessoa();
-        virtual void set_hp(int hp) = 0;
-        virtual int get_hp() = 0;
+    vector<vector<Elemento>> inicializar(int tamanho, vector<vector<Elemento>> cenario,Pirata player, Marinha mar, Elemento obst, OnePiece tesouro);
+	int GetCenario();
+	void SetCenario(int tamanho);
+	void ImprimirCenario(vector<vector<Elemento>> cenario, Pirata player);
 };
 
 
-class OnePiece : public Elemento{
-    private:
-        float peso;
-    public:
-        OnePiece(float peso,string nome,enum TipoElemento tipo);
-        ~OnePiece();
-        void set_peso(float peso);
-        float get_peso();
-
-        // Polimorfia Elemento
-        void set_tipo_elemento(enum TipoElemento tipo);
-        enum TipoElemento get_tipo_elemento() = 0;
-        void set_nome_elemento(string nome);
-        string get_nome_elemento();
-
-};
-
-// class Pirata: public Pessoa {
-//     private:
-//         float peso;
-//         float peso_adicional; // => 0
-//     public:
-//         Pirata(float peso);
-//         ~Pirata();
-//         void set_peso_adicional(float peso_adicional);
-//         float get_peso_adicional();
-
-//         void set_peso(float peso);
-//         float get_peso();
-// };
-
-// class Marinha: public Pessoa {
-//     private:
-//         bool estado;
-//     public:
-//         Marinha(bool estado);
-//         ~Marinha();
-//         void set_estado(bool estado);
-//         bool get_estado();
-// };
+void menu_player();
+void game_over();
+void you_win();
