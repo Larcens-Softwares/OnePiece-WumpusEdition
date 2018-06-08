@@ -147,28 +147,28 @@ void validando_spawn(int tamanho,vector<vector<Elemento>> cenario,int  *pos) {
 	randNumLinha = rand() % (tamanho - 1) + 1;
 	randNumColuna = rand() % (tamanho - 1) + 1;
 
-	cout << "\t > Tentativa spawn : " << endl;
+	// cout << "\t > Tentativa spawn : " << endl;
 	while(validando == true){
 
 		if(randNumLinha != 0 or randNumColuna != 0){
-			cout << "\t\t Fail : Linha ou coluna [0]: " << randNumLinha << "," << randNumColuna << endl;
+			// cout << "\t\t Fail : Linha ou coluna [0]: " << randNumLinha << "," << randNumColuna << endl;
 
 			if(randNumLinha != (tamanho - 1) or randNumColuna != (tamanho - 1)){
-				cout << "\t\t Fail : Spawn no OnePiece [F]: " << randNumLinha << "," << randNumColuna << endl;
+				// cout << "\t\t Fail : Spawn no OnePiece [F]: " << randNumLinha << "," << randNumColuna << endl;
 
 				if(cenario[randNumLinha][randNumColuna].GetNome() != "Pe" and cenario[randNumLinha][randNumColuna].GetNome() != "Ma"){
-					cout << "\t\t Fail : Spawn em outros Elementos [F]: " << randNumLinha << "," << randNumColuna << endl;
+					// cout << "\t\t Fail : Spawn em outros Elementos [F]: " << randNumLinha << "," << randNumColuna << endl;
 
 					if(randNumLinha != (tamanho - 2) or randNumColuna != (tamanho - 2)){
-						cout << "\t\t Fail : Proximidade do OnePiece: " << randNumLinha << "," << randNumColuna << endl;
+						// cout << "\t\t Fail : Proximidade do OnePiece: " << randNumLinha << "," << randNumColuna << endl;
 
 						if((randNumLinha == (tamanho-1) and randNumColuna == (tamanho-2)) and
 							(cenario[tamanho-2][tamanho-1].GetNome() == "Pe") ){
-								cout << "\t\t Fail : Bloqueio de passagem [F]: " << randNumLinha << "," << randNumColuna << endl;
+								// cout << "\t\t Fail : Bloqueio de passagem [F]: " << randNumLinha << "," << randNumColuna << endl;
 								validando = true; // volta ao loop
 						}else if((randNumLinha == (tamanho-2) and randNumColuna == (tamanho-1)) and
 							(cenario[tamanho-1][tamanho-2].GetNome() == "Pe")){
-								cout << "\t\t Fail : Bloqueio de passagem [F]: " << randNumLinha << "," << randNumColuna << endl;
+								// cout << "\t\t Fail : Bloqueio de passagem [F]: " << randNumLinha << "," << randNumColuna << endl;
 								validando = true; // volta ao loop
 						}else{
 							validando = false; // encerra requisitos de spawn
@@ -185,7 +185,7 @@ void validando_spawn(int tamanho,vector<vector<Elemento>> cenario,int  *pos) {
 
 		pos[0] = randNumLinha;
 		pos[1] = randNumColuna;
-		cout << "\t\t Sucessfull : Posicao sorteada : " << pos[0] << "," << pos[1] << endl;
+		// cout << "\t\t Sucessfull : Posicao sorteada : " << pos[0] << "," << pos[1] << endl;
 }
 
 vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha mar,int tamanho,string move){
@@ -207,9 +207,6 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 							cenario.at(aux - 1).at(aux2).SetTipo(mar.GetTipo());
 							
 							control++;
-							// getchar();
-							// system("CLS");
-							// system("clear");
 						}
 					}
 					aux2++;
@@ -231,11 +228,8 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 							cenario.at(aux + 1).at(aux2).SetNome(mar.GetNome());
 							cenario.at(aux + 1).at(aux2).SetTipo(mar.GetTipo());
 
-							// cenar.inicializar(cenario);
 							control++;
-							// getchar();
-							// system("CLS");
-							// system("clear");
+
 						}
 					}
 					aux2++;
@@ -255,12 +249,9 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 							// proxima posição
 							cenario.at(aux).at(aux2 - 1).SetNome(mar.GetNome());
 							cenario.at(aux).at(aux2 - 1).SetTipo(mar.GetTipo());
-							
-							// cenar.inicializar(cenario);
+			
 							control++;
-							// getchar();
-							// system("CLS");
-							// system("clear");
+
 						}
 					}
 					aux2++;
@@ -282,12 +273,8 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 							cenario.at(aux).at(aux2 + 1).SetNome(mar.GetNome());
 							cenario.at(aux).at(aux2 + 1).SetTipo(mar.GetTipo());
 							
-							// cenar.inicializar(cenario);
-							control++;
-							// getchar();
 
-							// system("CLS");
-							// system("clear");
+							control++;
 						}
 					}
 					aux2++;
@@ -303,7 +290,7 @@ vector<vector<Elemento>> move_marinha(vector<vector<Elemento>> cenario, Marinha 
 		return cenario;
 }
 
-vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int tamanho, Pirata *player, Marinha mar, int *rodadas_marinha, int *proxima_rodada){
+vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int tamanho, Pirata *player, Marinha *mar){
 	int aux = 0, aux2 = 0, control = 0;
 	
 	
@@ -317,39 +304,33 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 			cout << "up ↑  " ;
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and  aux > 0 and control == 0) {
+					if (cenario[aux][aux2].GetNome() == "Jo" and  aux >= 0 and control == 0) {
 						
-						// Caso movimento colide com obstaculos
-		 				if(cenario[aux - 1][aux2].GetNome() == "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma"){
-		 					mar.SetEstado(true);
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha++;
-		 					// cout << *rodadas_marinha << endl;
-		 					*proxima_rodada = 1;
-		 				}
+						if((aux - 1) < 0){
+							cout << "=--Invalido  ";
+						}else{
+							// Caso movimento colide com obstaculos
+			 				if(cenario[aux - 1][aux2].GetNome() == "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma"){
+			 					cenario = move_marinha(cenario,*mar,tamanho,move);
+			 					mar->SetEstado(true);
+			 				}else{
+			 					mar->SetEstado(false);
+			 				}
 
-		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha--;
-		 					// cout << *rodadas_marinha << endl;
-		 				}
-		 				
-		 				// cout << *rodadas_marinha << endl;
-		 				*proxima_rodada = 0;
-
-						if (cenario[aux - 1][aux2].GetNome() != "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma") {
-							cenario.at(aux).at(aux2).SetNome("~~");
-							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux - 1).at(aux2).SetNome(player->GetNome());
-							cenario.at(aux - 1).at(aux2).SetTipo(player->GetTipo());
-							control++;
-						
-		 				}else if(cenario[aux - 1][aux2].GetNome() == "Ma"){
-		 					int vida = player->GetVida();
-		 					vida--;
-		 					player->SetVida(vida);
-		 					cout << " -1 vida";
-		 				}
+							if (cenario[aux - 1][aux2].GetNome() != "Pe" and cenario[aux - 1][aux2].GetNome() != "Ma") {
+								cenario.at(aux).at(aux2).SetNome("~~");
+								cenario.at(aux).at(aux2).SetTipo(espacoVazio);
+								cenario.at(aux - 1).at(aux2).SetNome(player->GetNome());
+								cenario.at(aux - 1).at(aux2).SetTipo(player->GetTipo());
+								control++;
+							
+			 				}else if(cenario[aux - 1][aux2].GetNome() == "Ma"){
+			 					int vida = player->GetVida();
+			 					vida--;
+			 					player->SetVida(vida);
+			 					cout << " -1 vida";
+			 				}
+						}
 
 					}
 					aux2++;
@@ -362,39 +343,33 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 			cout << "down ↓  ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and  aux < (tamanho - 1)  and control == 0) {
+					if (cenario[aux][aux2].GetNome() == "Jo" and  aux <= (tamanho - 1)  and control == 0) {
 						
-						// Caso movimento colide com obstaculos
-		 				if(cenario[aux + 1][aux2].GetNome() == "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma"){
-		 					mar.SetEstado(true);
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha++;
-		 					// cout << *rodadas_marinha << endl;
-		 					*proxima_rodada = 1;
-		 				}
+						if((aux + 1) > (tamanho - 1)){
+							cout << "=--Invalido  ";
+						}else{
+							// Caso movimento colide com obstaculos
+			 				if(cenario[aux + 1][aux2].GetNome() == "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma"){
+			 					cenario = move_marinha(cenario,*mar,tamanho,move);
+			 					mar->SetEstado(true);
+			 				}else{
+			 					mar->SetEstado(false);
+			 				}
 
-		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha--;
-		 					// cout << *rodadas_marinha << endl;
-		 				}
-		 				
-		 				// cout << *rodadas_marinha << endl;
-		 				*proxima_rodada = 0;
-
-						if (cenario[aux + 1][aux2].GetNome() != "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma") {
-							cenario.at(aux).at(aux2).SetNome("~~");
-							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux + 1).at(aux2).SetNome(player->GetNome());
-							cenario.at(aux + 1).at(aux2).SetTipo(player->GetTipo());
-							control++;
-						
-						}else if(cenario[aux + 1][aux2].GetNome() == "Ma"){
-		 					int vida = player->GetVida();
-		 					vida--;
-		 					player->SetVida(vida);
-		 					cout << " -1 vida";
-		 				}
+							if (cenario[aux + 1][aux2].GetNome() != "Pe" and cenario[aux + 1][aux2].GetNome() != "Ma") {
+								cenario.at(aux).at(aux2).SetNome("~~");
+								cenario.at(aux).at(aux2).SetTipo(espacoVazio);
+								cenario.at(aux + 1).at(aux2).SetNome(player->GetNome());
+								cenario.at(aux + 1).at(aux2).SetTipo(player->GetTipo());
+								control++;
+							
+							}else if(cenario[aux + 1][aux2].GetNome() == "Ma"){
+			 					int vida = player->GetVida();
+			 					vida--;
+			 					player->SetVida(vida);
+			 					cout << " -1 vida";
+			 				}
+						}
 
 					}
 					aux2++;
@@ -407,36 +382,33 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 			cout << "left ←  ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 > 0 and control == 0) {
-						
-						// Caso movimento colide com obstaculos
-		 				if(cenario[aux][aux2 - 1].GetNome() == "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma"){
-		 					mar.SetEstado(true);
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha++;
-		 					*proxima_rodada = 1;
-		 				}
-		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha--;
-		 					// cout << *rodadas_marinha << endl;
-		 				}
-		 				// cout << *rodadas_marinha << endl;
-		 				*proxima_rodada = 0;
+					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 >= 0 and control == 0) {
 
-						if (cenario[aux][aux2 - 1].GetNome() != "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma") {
-							cenario.at(aux).at(aux2).SetNome("~~");
-							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux).at(aux2 - 1).SetNome(player->GetNome());
-							cenario.at(aux).at(aux2 - 1).SetTipo(player->GetTipo());
-							control++;
-						
-						}else if(cenario[aux][aux2 - 1].GetNome() == "Ma"){
-		 					int vida = player->GetVida();
-		 					vida--;
-		 					player->SetVida(vida);
-		 					cout << " -1 vida";
-		 				}
+						if((aux2 - 1) < 0){
+							cout << "=--Invalido  ";
+						}else{
+							// Caso movimento colide com obstaculos
+			 				if(cenario[aux][aux2 - 1].GetNome() == "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma"){
+			 					cenario = move_marinha(cenario,*mar,tamanho,move);
+			 					mar->SetEstado(true);
+			 				}else{
+			 					mar->SetEstado(false);
+			 				}
+
+							if (cenario[aux][aux2 - 1].GetNome() != "Pe" and cenario[aux][aux2 - 1].GetNome() != "Ma") {
+								cenario.at(aux).at(aux2).SetNome("~~");
+								cenario.at(aux).at(aux2).SetTipo(espacoVazio);
+								cenario.at(aux).at(aux2 - 1).SetNome(player->GetNome());
+								cenario.at(aux).at(aux2 - 1).SetTipo(player->GetTipo());
+								control++;
+							
+							}else if(cenario[aux][aux2 - 1].GetNome() == "Ma"){
+			 					int vida = player->GetVida();
+			 					vida--;
+			 					player->SetVida(vida);
+			 					cout << " -1 vida";
+			 				}
+						}
 					}
 					aux2++;
 				}
@@ -448,37 +420,34 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 			cout << "right →  ";
 			for (auto linha : cenario) {
 				for (auto coluna : cenario.at(aux)) {
-					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 < (tamanho - 1) and control == 0) {
+					if (cenario[aux][aux2].GetNome() == "Jo" and aux2 <= (tamanho - 1) and control == 0) {
 						
-						// Caso movimento colide com obstaculos
-		 				if(cenario[aux][aux2 +  1].GetNome() == "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma"){
-		 					mar.SetEstado(true);
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha++;
-		 					// cout << *rodadas_marinha << endl;
-		 					*proxima_rodada = 1;
-		 				}
-		 				if(*rodadas_marinha != 0 and *proxima_rodada == 0){
-		 					cenario = move_marinha(cenario,mar,tamanho,move);
-		 					*rodadas_marinha--;
-		 					// cout << *rodadas_marinha << endl;
-		 				}
-		 				// cout << *rodadas_marinha << endl;
-		 				*proxima_rodada = 0;
+						if((aux2 + 1) > (tamanho - 1)){
+							cout << "=--Invalido  ";
+						}else{
 
-						if (cenario[aux][aux2 + 1].GetNome() != "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma") {
-							cenario.at(aux).at(aux2).SetNome("~~");
-							cenario.at(aux).at(aux2).SetTipo(espacoVazio);
-							cenario.at(aux).at(aux2 + 1).SetNome(player->GetNome());
-							cenario.at(aux).at(aux2 + 1).SetTipo(player->GetTipo());
-							control++;
-						
-						}else if(cenario[aux][aux2 + 1].GetNome() == "Ma"){
-		 					int vida = player->GetVida();
-		 					vida--;
-		 					player->SetVida(vida);
-		 					cout << " -1 vida";
-		 				}
+							// Caso movimento colide com obstaculos
+			 				if(cenario[aux][aux2 +  1].GetNome() == "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma"){
+			 					cenario = move_marinha(cenario,*mar,tamanho,move);
+			 					mar->SetEstado(true);
+			 				}else{
+			 					mar->SetEstado(false);
+			 				}
+
+							if (cenario[aux][aux2 + 1].GetNome() != "Pe" and cenario[aux][aux2 + 1].GetNome() != "Ma") {
+								cenario.at(aux).at(aux2).SetNome("~~");
+								cenario.at(aux).at(aux2).SetTipo(espacoVazio);
+								cenario.at(aux).at(aux2 + 1).SetNome(player->GetNome());
+								cenario.at(aux).at(aux2 + 1).SetTipo(player->GetTipo());
+								control++;
+							
+							}else if(cenario[aux][aux2 + 1].GetNome() == "Ma"){
+			 					int vida = player->GetVida();
+			 					vida--;
+			 					player->SetVida(vida);
+			 					cout << " -1 vida";
+			 				}
+						}
 					}
 					aux2++;
 				}
@@ -492,8 +461,6 @@ vector<vector<Elemento>> MoverPirata(vector<vector<Elemento>> cenario, int taman
 		fflush(stdin);
 		return cenario;
 }
-
-
 
 
 class GrandLine {
@@ -511,7 +478,7 @@ public:
 		// -------- gerando one piece----------//
 		cenario.at(tamanho-1).at(tamanho-1).SetNome(tesouro.GetNome());
 		cenario.at(tamanho-1).at(tamanho-1).SetTipo(tesouro.GetTipo());
-	    cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
+	    // cout << "\n\t------------ Desenvolvedor debug ------------" << '\n';
 
 	    // -------- gerando obstaculos ---------//
 		for(int pedra = 1; pedra <= (tamanho / 2); pedra++){
@@ -659,7 +626,41 @@ void you_win(){
 	cout << "\t\t   ) (   | |   | || |   | |  | || || |   | |   | | \\   |" << endl;
 	cout << "\t\t   | |   | (___) || (___) |  | () () |___) (___| )  \\  |" << endl;
 	cout << "\t\t   \\_/   (_______)(_______)  (_______)\\_______/|/    )_)" << endl << endl;
+}
+
+
+vector<vector<Elemento>> haki_move(vector<vector<Elemento>> cenario, int *auxHaki, int *haki, Pirata *player, GrandLine *mapa, int tamanho){
+	if(cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo"){
+		cenario.at(tamanho-3).at(tamanho-1).SetNome("~~");
+		cenario.at(tamanho-2).at(tamanho-1).SetNome(player->GetNome());
+		cenario.at(tamanho-3).at(tamanho-1).SetTipo(espacoVazio);
+		cenario.at(tamanho-2).at(tamanho-1).SetTipo(player->GetTipo());
+		mapa->ImprimirCenario(cenario,*player);
+	}else if(cenario.at(tamanho-1).at(tamanho-3).GetNome() == "Jo"){
+		cenario.at(tamanho-1).at(tamanho-3).SetNome("~~");
+		cenario.at(tamanho-1).at(tamanho-2).SetNome(player->GetNome());
+		cenario.at(tamanho-1).at(tamanho-3).SetTipo(espacoVazio);
+		cenario.at(tamanho-1).at(tamanho-2).SetTipo(player->GetTipo());
+		mapa->ImprimirCenario(cenario,*player);
+	}else if(cenario.at(tamanho-1).at(tamanho-2).GetNome() == "Jo"){
+		cenario.at(tamanho-1).at(tamanho-2).SetNome("~~");
+		cenario.at(tamanho-1).at(tamanho-1).SetNome(player->GetNome());
+		cenario.at(tamanho-1).at(tamanho-2).SetTipo(espacoVazio);
+		cenario.at(tamanho-1).at(tamanho-1).SetTipo(player->GetTipo());
+		mapa->ImprimirCenario(cenario,*player);
+		*auxHaki = 1;
+		*haki = 1;
+	}else if(cenario.at(tamanho-2).at(tamanho-1).GetNome() == "Jo"){
+		cenario.at(tamanho-2).at(tamanho-1).SetNome("~~");
+		cenario.at(tamanho-1).at(tamanho-1).SetNome(player->GetNome());
+		cenario.at(tamanho-2).at(tamanho-1).SetTipo(espacoVazio);
+		cenario.at(tamanho-1).at(tamanho-1).SetTipo(player->GetTipo());
+		mapa->ImprimirCenario(cenario,*player);
+		*auxHaki = 1;
+		*haki = 1;
+	}
 	getchar();
+	return cenario;
 }
 
 int rodadas_marinha = 0;
@@ -683,10 +684,12 @@ int main(){
 
 	cin >> TamCen;cout << endl;
 	tamanho = atoi(TamCen);
+	
+	// encerramento do programa
 	if(tamanho == 8){
 		return 0;
 	}
-	while(tamanho > 7 or tamanho < 4){
+	while(tamanho > 7 or tamanho < 4){ // loop caso fora de range
 		cout << ">-------- NIVEL INVALIDO!!!----------<" << endl;
 		cout << " \n-- Selecione um nivel --" << endl;
  		cin >> TamCen;
@@ -701,34 +704,33 @@ int main(){
 
 // ---------------- Gerando novas seeds (rand) -------------- //;
  	srand(time(NULL));
- 	//ola
 
 // ---------------- Inicializando Cenario -------------------- //;
-	 
 	 GrandLine mapa;
 	 cenario = mapa.inicializar(tamanho,cenario,player,mar,obst,tesouro);
 	 mapa.ImprimirCenario(cenario,player);
 
 //----------MOVIMENTO----------------------------//
-	getchar();
-	getchar();
-	system("CLS");
-	system("clear");
+	getchar();getchar();
+	system("CLS");system("clear");
 	fflush(stdin);
-	int haki = 1,auxHaki = 0, auxPeso = 10;
-	int aux = 0, aux2 = 0;
-	int vida = player.GetVida();	
-	int acumulo_onepiece = 0;
-	bool posicao_luffy_encerramento = false;
-	string ui_estado_marinha; // imprime estado
+	
+	int haki = 1,auxHaki = 0, auxPeso = 10; // Variaveis aux de condições do haki
+	int aux = 0, aux2 = 0; // aux para percorrer linhas e colunas
+	
+	int vida = player.GetVida();
+	int acumulo_onepiece = 0; // Acumula peso descarregado
+	bool posicao_luffy_encerramento = false; // encerra o programa quando [0,0] e pegou todo onepiece
+	string ui_estado_marinha;
 
 	while (vida != 0 and posicao_luffy_encerramento != true) {
-		bool saida_pirata = false; // saida do pirata do onepice
-    	// ui_estado_marinha = mar.GetEstado()? "Marinha em alerta":"Marinha Dormindo";
+		// saida do pirata do [n-][n-1]
+		bool saida_pirata = false; 
+    	ui_estado_marinha = mar.GetEstado()? "Marinha em alerta":"Marinha Dormindo";
 		
 		haki = player.IdentificarTesouro(cenario,tamanho);
-		if(cenario.at(0).at(0).GetNome() == "Jo" and auxHaki == 1){
-			while(player.GetPesoAdd() > 0){ // Descarregando navio
+		if(cenario.at(0).at(0).GetNome() == "Jo" and auxHaki == 1){ // Descarregar navio
+			while(player.GetPesoAdd() > 0){ 
 				player.SetPesoRed(auxPeso);
 				cout << "\t|Luffy action: Descarreando navio... " << player.GetPesoAdd() << " kg " << endl;
 				acumulo_onepiece += 10;
@@ -753,6 +755,7 @@ int main(){
 				system("CLS");
 				system("clear");
 			}
+			// Saindo do haki
 			if(cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Pe" and cenario.at(tamanho-2).at(tamanho-1).GetNome() != "Ma" and saida_pirata == false){
 				cenario.at(tamanho-2).at(tamanho-1).SetNome(player.GetNome());
 				saida_pirata = true;
@@ -765,49 +768,24 @@ int main(){
 			   system("CLS");
 			   system("clear");
 			}
+			// Repondo OnePiece
 			cenario.at(tamanho-1).at(tamanho-1).SetNome(tesouro.GetNome());
 			cenario.at(tamanho-1).at(tamanho-1).SetTipo(tesouro.GetTipo());
 			mapa.ImprimirCenario(cenario,player);
 			getchar();
 			system("CLS");
 			system("clear");
-
+		
 		}else if(haki == 0 and auxHaki == 0){
+		
 			cout << ">-- Haki ativo:\t\t\t>-- Nivel: " << tamanho << endl;
-			if(cenario.at(tamanho-3).at(tamanho-1).GetNome() == "Jo"){
-				cenario.at(tamanho-3).at(tamanho-1).SetNome("~~");
-				cenario.at(tamanho-2).at(tamanho-1).SetNome(player.GetNome());
-				cenario.at(tamanho-3).at(tamanho-1).SetTipo(espacoVazio);
-				cenario.at(tamanho-2).at(tamanho-1).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario,player);
-			}else if(cenario.at(tamanho-1).at(tamanho-3).GetNome() == "Jo"){
-				cenario.at(tamanho-1).at(tamanho-3).SetNome("~~");
-				cenario.at(tamanho-1).at(tamanho-2).SetNome(player.GetNome());
-				cenario.at(tamanho-1).at(tamanho-3).SetTipo(espacoVazio);
-				cenario.at(tamanho-1).at(tamanho-2).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario,player);
-			}else if(cenario.at(tamanho-1).at(tamanho-2).GetNome() == "Jo"){
-				cenario.at(tamanho-1).at(tamanho-2).SetNome("~~");
-				cenario.at(tamanho-1).at(tamanho-1).SetNome(player.GetNome());
-				cenario.at(tamanho-1).at(tamanho-2).SetTipo(espacoVazio);
-				cenario.at(tamanho-1).at(tamanho-1).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario,player);
-				auxHaki = 1;
-				haki = 1;
-			}else if(cenario.at(tamanho-2).at(tamanho-1).GetNome() == "Jo"){
-				cenario.at(tamanho-2).at(tamanho-1).SetNome("~~");
-				cenario.at(tamanho-1).at(tamanho-1).SetNome(player.GetNome());
-				cenario.at(tamanho-2).at(tamanho-1).SetTipo(espacoVazio);
-				cenario.at(tamanho-1).at(tamanho-1).SetTipo(player.GetTipo());
-				mapa.ImprimirCenario(cenario,player);
-				auxHaki = 1;
-				haki = 1;
-			}
-			getchar();
+			cenario = haki_move(cenario,&auxHaki,&haki,&player,&mapa,tamanho);
+		
 		}else if(haki == 1 or auxHaki == 1){
 			cout << ">-- Movimentos:\t\t\t>-- Nivel: " << tamanho << endl;
-			cenario = MoverPirata(cenario,tamanho,&player,mar,&rodadas_marinha,&proxima_rodada);
+			cenario = MoverPirata(cenario,tamanho,&player,&mar);
 			mapa.ImprimirCenario(cenario,player);
+			cout << "\t<= "<< ui_estado_marinha << " =>"<<endl;
 			getchar();
 		}
 
@@ -824,7 +802,7 @@ int main(){
 
 	cout << "\t\t| --------- Painel de pontuacao --------- |" << endl;
 	cout << "\t\t| OnePiece capturado : " << acumulo_onepiece << " kg "<< endl;
-	cout << "\t\t| Pontuacao total : " << acumulo_onepiece*100 << " pnts " << endl << endl;
+	cout << "\t\t| Pontuacao total : " << acumulo_onepiece*100+(100*vida) << " pnts " << endl << endl;
 	
 	return 0;
 }  
